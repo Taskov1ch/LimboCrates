@@ -1,0 +1,10 @@
+name: LimboCrates
+version: 0.0.1
+api: 5.0.0
+main: Taskov1ch\LimboCrates\Main
+loadbefore:
+  - Texter
+
+permissions:
+  limbo.crates.create:
+    default: op

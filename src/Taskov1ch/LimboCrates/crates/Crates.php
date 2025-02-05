@@ -25,6 +25,13 @@ class Crates
 		[-1, -2],
 		[1, -2],
 	];
+	public const DEFAULT_REWARD = [
+		"name" => "Error",
+		"chance" => 100,
+		"commands" => [
+			"say pls add rewards"
+		]
+	];
 
 	/** @var Crate[] */
 	private array $crates = [];
@@ -33,6 +40,7 @@ class Crates
 
 	public function __construct(private Main $main)
 	{
+		$main->saveResource("crates.yml");
 		$this->cratesFile = new Config(Path::join($main->getDataFolder(), "crates.yml"));
 		$this->loadAll();
 	}
@@ -108,7 +116,7 @@ class Crates
 	public function closeAll(): void
 	{
 		foreach ($this->crates as $crate) {
-			$crate->close();
+			$crate->close(true);
 		}
 	}
 
@@ -146,6 +154,17 @@ class Crates
 		return null;
 	}
 
+	public function isCrateChest(Block $block): bool
+	{
+		foreach ($this->crates as $crate) {
+			if ($crate->getSession()->isCrateChest($block)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public function handleChest(Player $player, Block $block): void
 	{
 		foreach ($this->crates as $_ => $crate) {
@@ -157,7 +176,7 @@ class Crates
 	{
 		foreach ($this->crates as $_ => $crate) {
 			if ($crate->getSession()->getPlayer() === $player) {
-				$crate->getSession()->close();
+				$crate->getSession()->close(!Server::getInstance()->isOp($player->getName()));
 			}
 		}
 	}

@@ -2,10 +2,10 @@
 
 namespace Taskov1ch\LimboCrates\crates;
 
-use pocketmine\block\Block;
 use pocketmine\player\Player;
+use pocketmine\Server;
 use pocketmine\world\Position;
-use pocketmine\block\VanillaBlocks;
+use Taskov1ch\LimboCrates\Main;
 use Taskov1ch\LimboCrates\sessions\Session;
 use WolfDen133\WFT\WFT;
 
@@ -26,6 +26,11 @@ class Crate
 		$tmpPosition->z += 0.5;
 		WFT::getInstance()->getTextManager()->registerText("lc_{$name}", $title, $tmpPosition, true, false);
 		$this->session = new Session($this);
+	}
+
+	public function getName(): string
+	{
+		return $this->name;
 	}
 
 	public function getPosition(): Position
@@ -59,11 +64,26 @@ class Crate
 			return;
 		}
 
-		$this->session->handle($player);
+		if (Server::getInstance()->isOp($player->getName())) {
+			$this->session->handle($player);
+			return;
+		}
+
+		Main::getInstance()->getKeysManager()->getKeys($player)->onCompletion(
+			function(int $keys) use($player) {
+				if ($keys <= 0) {
+					$player->sendMessage("§cKeys 0 :(");
+				} else {
+					Main::getInstance()->getKeysManager()->takeKeys($player, 1);
+					$this->session->handle($player);
+				}
+			},
+			fn () => null
+		);
 	}
 
-	public function close(): void
+	public function close($isForce = false): void
 	{
-		$this->session->close();
+		$this->session->close($isForce);
 	}
 }

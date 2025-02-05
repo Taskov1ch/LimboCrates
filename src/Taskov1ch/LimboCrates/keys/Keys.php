@@ -34,7 +34,7 @@ class Keys
 		return $promise->getPromise();
 	}
 
-	private function updateKeys(Player $player, int $keys, string $query): void
+	private function updateKeys(Player $player, int $keys, string $query, bool $wait = false): void
 	{
 		$player = strtolower($player->getName());
 		$this->guarantee($player)->onCompletion(
@@ -43,6 +43,10 @@ class Keys
 			},
 			fn() => null
 		);
+
+		if ($wait) {
+			$this->db->waitAll();
+		}
 	}
 
 	public function getKeys(Player $player): Promise
@@ -65,18 +69,18 @@ class Keys
 		return $promise->getPromise();
 	}
 
-	public function addKeys(Player $player, int $keys): void
+	public function addKeys(Player $player, int $keys, bool $wait = false): void
 	{
-		$this->updateKeys($player, $keys, "keys.add");
+		$this->updateKeys($player, $keys, "keys.add", $wait);
 	}
 
-	public function takeKeys(Player $player, int $keys): void
+	public function takeKeys(Player $player, int $keys, bool $wait = false): void
 	{
-		$this->updateKeys($player, $keys, "keys.take");
+		$this->updateKeys($player, $keys, "keys.take", $wait);
 	}
 
-	public function setKeys(Player $player, int $keys): void
+	public function setKeys(Player $player, int $keys, bool $wait = false): void
 	{
-		$this->updateKeys($player, $keys, "keys.set");
+		$this->updateKeys($player, $keys, "keys.set", $wait);
 	}
 }

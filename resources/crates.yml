@@ -1,0 +1,20 @@
+example:
+  x: 256 # X
+  y: 4   # Y
+  z: 256 # Z
+  world: world # World folder name
+  title: EXAMPLE CRATE # Floating text
+  rewards: # Array with awards
+    - name: Kick xD
+      chance: 90
+      commands:
+        - title {player} title TEST
+    - name: Flying :)
+      chance: 90
+      commands:
+        - tp {player} 256 100 256
+    - name: IDK
+      chance: 90
+      commands:
+        - say Bla bla bla
+        - say 8 800-555-35-35

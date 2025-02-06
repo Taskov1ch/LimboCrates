@@ -1,0 +1,44 @@
+crate:
+  messages:
+    insufficient_keys: 你没有足够的钥匙来打开箱子。
+    crate_busy: 该箱子正在被另一名玩家打开。
+    crate_opening: 你已经在打开这个箱子了。
+    not_choose_time: 你现在无法选择箱子。
+
+  titles:
+    select_crate: 选择你的箱子！
+
+  subtitles:
+    ending: 恭喜你获得奖励！
+
+  tips:
+    choose_time_left: 还剩 {seconds} 秒。请尽快选择一个箱子。
+
+  texts:
+    is_opening: "当前正在打开箱子的玩家: {player}"
+
+commands:
+  addkeys:
+    usage: "/addkeys <player: string> <keys: int>"
+    success: "你已成功给予 {player} {keys} 把钥匙。"
+
+  takekeys:
+    usage: "/takekeys <player: string> <keys: int>"
+    success: "你已成功从 {player} 夺取 {keys} 把钥匙。"
+
+  mykeys:
+    success: |-
+      你目前有 {keys} 把钥匙。
+      你可以在 my-super-duper-donate-site.com 购买钥匙。
+
+  createcrate:
+    usage: "/createcrate <name: string>"
+    enable: 点击你想要设为箱子的方块。
+    disable: 你已退出箱子创建模式。
+    success: 你已成功创建箱子 {crate}。所有设置都可以在 crates.yml 中更改。
+    unsuccess: 出现错误。可能已经存在同名箱子，或者所选方块已被占用。
+
+  deletecrate:
+    usage: "/deletecrate <name: string>"
+    success: 你已成功删除箱子 {crate}。
+    unsuccess: 该名称的箱子不存在。

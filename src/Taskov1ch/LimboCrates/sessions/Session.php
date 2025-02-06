@@ -73,7 +73,7 @@ class Session
 			$this->chestPositions[] = $crate->getPosition()->add($adjust($offsetX), 0, $adjust($offsetZ));
 		}
 		$this->shufflePositions = $this->chestPositions;
-		$this->messages = Main::getInstance()->getMessages();
+		$this->messages = Main::getInstance()->getMessages()["crate"];
 		$this->scheduler = Main::getInstance()->getScheduler();
 		$this->textManager = WFT::getInstance()->getTextManager();
 	}
@@ -93,14 +93,14 @@ class Session
 		return false;
 	}
 
-	public function getPlayer(): ?Player
-	{
-		return $this->player;
-	}
-
 	public function isTruePlayer(Player $player): bool
 	{
 		return $this->player !== null && $this->player->getName() === $player->getName();
+	}
+
+	public function getPlayer(): ?Player
+	{
+		return $this->player;
 	}
 
 	private function openChest(Vector3 $position): void
@@ -323,8 +323,8 @@ class Session
 
 	public function close(bool $isForce = false, bool $serverShutdown = false): void
 	{
-		if ($isForce && $this->player !== null) {
-			Main::getInstance()->getKeysManager()->addKeys($this->player, 1, $serverShutdown);
+		if ($isForce && $this->player !== null && !$this->isEnding) {
+			Main::getInstance()->getKeysManager()->addKeys($this->player->getName(), 1, $serverShutdown);
 		}
 
 		$world = $this->player?->getWorld();

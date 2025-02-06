@@ -1,0 +1,44 @@
+crate:
+  messages:
+    insufficient_keys: Du hast nicht genug Schlüssel, um die Kiste zu öffnen.
+    crate_busy: Die Kiste wird gerade von einem anderen Spieler geöffnet.
+    crate_opening: Du öffnest diese Kiste bereits.
+    not_choose_time: Du kannst momentan keine Kiste auswählen.
+
+  titles:
+    select_crate: Wähle deine Kiste!
+
+  subtitles:
+    ending: Glückwunsch zu deiner Belohnung!
+
+  tips:
+    choose_time_left: Noch {seconds}s übrig. Wähle schnell eine Kiste.
+
+  texts:
+    is_opening: "Gerade öffnet die Kiste: {player}"
+
+commands:
+  addkeys:
+    usage: "/addkeys <player: string> <keys: int>"
+    success: "Du hast erfolgreich {keys} Schlüssel an {player} gegeben."
+
+  takekeys:
+    usage: "/takekeys <player: string> <keys: int>"
+    success: "Du hast erfolgreich {keys} Schlüssel von {player} entfernt."
+
+  mykeys:
+    success: |-
+      Du hast derzeit {keys} Schlüssel.
+      Schlüssel können auf my-super-duper-donate-site.com gekauft werden.
+
+  createcrate:
+    usage: "/createcrate <name: string>"
+    enable: Klicke auf den Block, den du zur Kiste machen möchtest.
+    disable: Du hast den Kistenerstellungsmodus verlassen.
+    success: Du hast die Kiste {crate} erfolgreich erstellt. Alle Einstellungen können in crates.yml geändert werden.
+    unsuccess: Etwas ist schiefgelaufen. Wahrscheinlich gibt es bereits eine Kiste mit diesem Namen oder der ausgewählte Block ist bereits belegt.
+
+  deletecrate:
+    usage: "/deletecrate <name: string>"
+    success: Du hast die Kiste {crate} erfolgreich gelöscht.
+    unsuccess: Eine Kiste mit diesem Namen existiert nicht.

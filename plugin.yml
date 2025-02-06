@@ -6,5 +6,13 @@ loadbefore:
   - WFT
 
 permissions:
-  limbo.crates.create:
+  limbo.crates.addkeys:
+    default: op
+  limbo.crates.takekeys:
+    default: op
+  limbo.crates.mykeys:
+    default: true
+  limbo.crates.createcrate:
+    default: op
+  limbo.crates.deletecrate:
     default: op

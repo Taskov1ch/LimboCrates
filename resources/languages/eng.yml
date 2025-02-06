@@ -1,0 +1,44 @@
+crate:
+  messages:
+    insufficient_keys: You don't have enough keys to open the crate.
+    crate_busy: The crate is currently being opened by another player.
+    crate_opening: You are already opening this crate.
+    not_choose_time: You cannot choose a crate at this time.
+
+  titles:
+    select_crate: Choose your crate!
+
+  subtitles:
+    ending: Congratulations on your reward!
+
+  tips:
+    choose_time_left: "{seconds}s left. Choose a crate quickly."
+
+  texts:
+    is_opening: "Currently opening the crate: {player}"
+
+commands:
+  addkeys:
+    usage: "/addkeys <player: string> <keys: int>"
+    success: "You have successfully given {keys} keys to {player}."
+
+  takekeys:
+    usage: "/takekeys <player: string> <keys: int>"
+    success: "You have successfully taken {keys} keys from {player}."
+
+  mykeys:
+    success: |-
+      You currently have {keys} keys.
+      You can purchase keys on my-super-duper-donate-site.com.
+
+  createcrate:
+    usage: "/createcrate <name: string>"
+    enable: Click on the block you want to turn into a crate.
+    disable: You have exited crate creation mode.
+    success: You have successfully created the crate {crate}. All settings can be changed in crates.yml.
+    unsuccess: Something went wrong. Most likely, a crate with this name already exists or the block you selected is already occupied.
+
+  deletecrate:
+    usage: "/deletecrate <name: string>"
+    success: You have successfully deleted the crate {crate}.
+    unsuccess: A crate with this name does not exist.

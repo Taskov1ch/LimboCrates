@@ -1,0 +1,44 @@
+crate:
+  messages:
+    insufficient_keys: У вас недостатньо ключів, щоб відкрити ящик.
+    crate_busy: Ящик зараз відкривається іншим гравцем.
+    crate_opening: Ви вже відкриваєте цей ящик.
+    not_choose_time: Зараз ви не можете вибрати ящик.
+
+  titles:
+    select_crate: Виберіть свій ящик!
+
+  subtitles:
+    ending: Вітаємо з нагородою!
+
+  tips:
+    choose_time_left: Залишилося {seconds}с. Виберіть ящик швидше.
+
+  texts:
+    is_opening: "Зараз ящик відкриває: {player}"
+
+commands:
+  addkeys:
+    usage: "/addkeys <player: string> <keys: int>"
+    success: "Ви успішно видали {keys} ключів гравцеві {player}."
+
+  takekeys:
+    usage: "/takekeys <player: string> <keys: int>"
+    success: "Ви успішно забрали {keys} ключів у гравця {player}."
+
+  mykeys:
+    success: |-
+      У вас зараз {keys} ключів.
+      Ключі можна придбати на сайті my-super-duper-donate-site.com.
+
+  createcrate:
+    usage: "/createcrate <name: string>"
+    enable: Натисніть на блок, який хочете зробити ящиком.
+    disable: Ви вийшли з режиму створення ящика.
+    success: Ви успішно створили ящик {crate}. Усі налаштування можна змінити в crates.yml.
+    unsuccess: Щось пішло не так. Можливо, ящик з такою назвою вже існує, або вибраний блок уже зайнятий.
+
+  deletecrate:
+    usage: "/deletecrate <name: string>"
+    success: Ви успішно видалили ящик {crate}.
+    unsuccess: Ящика з такою назвою не існує.

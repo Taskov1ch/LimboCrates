@@ -2,7 +2,6 @@
 
 namespace Taskov1ch\LimboCrates\keys;
 
-use pocketmine\player\Player;
 use pocketmine\promise\Promise;
 use pocketmine\promise\PromiseResolver;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\DataConnector;
@@ -34,12 +33,12 @@ class Keys
 		return $promise->getPromise();
 	}
 
-	private function updateKeys(Player $player, int $keys, string $query, bool $wait = false): void
+	private function updateKeys(string $player, int $keys, string $query, bool $wait, ?callable $onSuccess): void
 	{
-		$player = strtolower($player->getName());
+		$player = strtolower($player);
 		$this->guarantee($player)->onCompletion(
-			function() use($player, $keys, $query): void {
-				$this->db->executeChange($query, compact("player", "keys"));
+			function() use($player, $keys, $query, $onSuccess): void {
+				$this->db->executeChange($query, compact("player", "keys"), $onSuccess);
 			},
 			fn() => null
 		);
@@ -49,9 +48,9 @@ class Keys
 		}
 	}
 
-	public function getKeys(Player $player): Promise
+	public function getKeys(string $player): Promise
 	{
-		$player = strtolower($player->getName());
+		$player = strtolower($player);
 		$promise = new PromiseResolver();
 
 		$this->guarantee($player)->onCompletion(
@@ -69,18 +68,18 @@ class Keys
 		return $promise->getPromise();
 	}
 
-	public function addKeys(Player $player, int $keys, bool $wait = false): void
+	public function addKeys(string $player, int $keys, bool $wait = false, ?callable $onSuccess = null): void
 	{
-		$this->updateKeys($player, $keys, "keys.add", $wait);
+		$this->updateKeys($player, $keys, "keys.add", $wait, $onSuccess);
 	}
 
-	public function takeKeys(Player $player, int $keys, bool $wait = false): void
+	public function takeKeys(string $player, int $keys, bool $wait = false, ?callable $onSuccess = null): void
 	{
-		$this->updateKeys($player, $keys, "keys.take", $wait);
+		$this->updateKeys($player, $keys, "keys.take", $wait, $onSuccess);
 	}
 
-	public function setKeys(Player $player, int $keys, bool $wait = false): void
+	public function setKeys(string $player, int $keys, bool $wait = false, ?callable $onSuccess = null): void
 	{
-		$this->updateKeys($player, $keys, "keys.set", $wait);
+		$this->updateKeys($player, $keys, "keys.set", $wait, $onSuccess);
 	}
 }

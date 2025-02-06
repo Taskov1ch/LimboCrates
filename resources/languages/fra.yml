@@ -1,0 +1,44 @@
+crate:
+  messages:
+    insufficient_keys: Vous n'avez pas assez de clés pour ouvrir la caisse.
+    crate_busy: La caisse est en cours d'ouverture par un autre joueur.
+    crate_opening: Vous êtes déjà en train d'ouvrir cette caisse.
+    not_choose_time: Vous ne pouvez pas choisir de caisse pour le moment.
+
+  titles:
+    select_crate: Choisissez votre caisse !
+
+  subtitles:
+    ending: Félicitations pour votre récompense !
+
+  tips:
+    choose_time_left: Il reste {seconds}s. Choisissez vite une caisse.
+
+  texts:
+    is_opening: "Actuellement en train d'ouvrir la caisse: {player}"
+
+commands:
+  addkeys:
+    usage: "/addkeys <player: string> <keys: int>"
+    success: "Vous avez donné {keys} clés à {player} avec succès."
+
+  takekeys:
+    usage: "/takekeys <player: string> <keys: int>"
+    success: "Vous avez retiré {keys} clés à {player} avec succès."
+
+  mykeys:
+    success: |-
+      Vous avez actuellement {keys} clés.
+      Vous pouvez acheter des clés sur my-super-duper-donate-site.com.
+
+  createcrate:
+    usage: "/createcrate <name: string>"
+    enable: Cliquez sur le bloc que vous souhaitez transformer en caisse.
+    disable: Vous avez quitté le mode création de caisse.
+    success: Vous avez créé la caisse {crate} avec succès. Tous les paramètres peuvent être modifiés dans crates.yml.
+    unsuccess: Quelque chose s'est mal passé. Il est probable qu'une caisse avec ce nom existe déjà ou que le bloc sélectionné soit déjà occupé.
+
+  deletecrate:
+    usage: "/deletecrate <name: string>"
+    success: Vous avez supprimé la caisse {crate} avec succès.
+    unsuccess: Aucune caisse avec ce nom n'existe.

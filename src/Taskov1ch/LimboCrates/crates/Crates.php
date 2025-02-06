@@ -11,6 +11,7 @@ use pocketmine\world\Position;
 use pocketmine\world\World;
 use Symfony\Component\Filesystem\Path;
 use Taskov1ch\LimboCrates\Main;
+use Taskov1ch\LimboCrates\utils\StringUtils;
 
 class Crates
 {
@@ -40,7 +41,6 @@ class Crates
 
 	public function __construct(private Main $main)
 	{
-		$main->saveResource("crates.yml");
 		$this->cratesFile = new Config(Path::join($main->getDataFolder(), "crates.yml"));
 		$this->loadAll();
 	}
@@ -54,18 +54,24 @@ class Crates
 		return $worldManager->getWorldByName($worldName);
 	}
 
-	private function loadCrate(string $name, array $data): void
+	private function loadCrate(string $name, array $data): bool
 	{
+		$name = StringUtils::steriliseString($name);
+
+		if (isset($this->crates[$name])) {
+			return false;
+		}
+
 		if (!isset($data["world"])) {
 			$this->main->getLogger()->critical("Missing 'world' key for crate '$name'");
-			return;
+			return false;
 		}
 
 		$world = $this->ensureWorldLoaded($data["world"]);
 
 		if ($world === null) {
 			$this->main->getLogger()->critical("World '{$data["world"]}' not found for crate '$name'");
-			return;
+			return false;
 		}
 
 		if (isset($data["position"]) && $data["position"] instanceof Position) {
@@ -74,13 +80,19 @@ class Crates
 			$position = new Position((int)$data["x"], (int)$data["y"], (int)$data["z"], $world);
 		} else {
 			$this->main->getLogger()->critical("Missing position data for crate '$name'");
-			return;
+			return false;
+		}
+
+		if ($this->getCrateByPosition($position)) {
+			return false;
 		}
 
 		$title = $data["title"] ?? $name;
 		$rewards = $data["rewards"] ?? [];
 
 		$this->crates[$name] = new Crate($this, $name, $position, $title, $rewards);
+
+		return true;
 	}
 
 	private function loadAll(): void
@@ -116,8 +128,10 @@ class Crates
 	public function closeAll(): void
 	{
 		foreach ($this->crates as $crate) {
-			$crate->close(true);
+			$crate->close(true, true);
 		}
+
+		$this->saveAll();
 	}
 
 	public function getAll(): array
@@ -125,7 +139,7 @@ class Crates
 		return $this->crates;
 	}
 
-	public function registerCrate(string $name, Position $position, ?string $title = null, array $rewards = []): void
+	public function registerCrate(string $name, Position $position, ?string $title = null, array $rewards = []): bool
 	{
 		$data = [
 			"position" => $position,
@@ -133,25 +147,43 @@ class Crates
 			"title" => $title ?? $name,
 			"rewards" => $rewards
 		];
-		$this->loadCrate($name, $data);
+		return $this->loadCrate($name, $data);
+	}
+
+	public function unregisterCrate(string $name): bool
+	{
+		$name = StringUtils::steriliseString($name);
+
+		if (isset($this->crates[$name])) {
+			$this->crates[$name]->close();
+			unset($this->crates[$name]);
+			return true;
+		}
+
+		return false;
 	}
 
 	public function getCrate(string $name): ?Crate
 	{
+		$name = StringUtils::steriliseString($name);
 		return $this->crates[$name] ?? null;
 	}
 
-	public function getCrateByBlock(Block $block): ?Crate
+	public function getCrateByPosition(Position $position): ?Crate
 	{
-		$blockPos = $block->getPosition();
-
 		foreach ($this->crates as $crate) {
-			if ($crate->getPosition()->equals($blockPos)) {
+			if ($crate->getPosition()->equals($position)) {
 				return $crate;
 			}
 		}
 
 		return null;
+	}
+
+	public function getCrateByBlock(Block $block): ?Crate
+	{
+		$blockPos = $block->getPosition();
+		return $this->getCrateByPosition($blockPos);
 	}
 
 	public function isCrateChest(Block $block): bool

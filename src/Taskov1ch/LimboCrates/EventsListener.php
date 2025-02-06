@@ -8,12 +8,16 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerQuitEvent;
+use Taskov1ch\LimboCrates\crates\CreateCrateStates;
 
 class EventsListener implements Listener
 {
+	private array $messages;
 
 	public function __construct(private Main $main)
-	{}
+	{
+		$this->messages = $main->getMessages();
+	}
 
 	public function onQuit(PlayerQuitEvent $event): void
 	{
@@ -26,6 +30,20 @@ class EventsListener implements Listener
 		$player = $event->getPlayer();
 		$block = $event->getBlock();
 		$crates = $this->main->getCratesManager();
+
+		if (CreateCrateStates::inState($player)) {
+			$crate = CreateCrateStates::getStateName($player);
+
+			$attempt = $crates->registerCrate($crate, $block->getPosition());
+			$player->sendMessage(
+				str_replace(
+					"{crate}", $crate,
+					$this->messages["commands"]["createcrate"][$attempt ? "success" : "unsuccess"]
+				)
+			);
+			CreateCrateStates::removeState($player);
+			return;
+		}
 
 		if ($block instanceof EnderChest && $crates->isCrateChest($block)) {
 			$event->cancel();

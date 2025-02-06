@@ -7,12 +7,14 @@ use pocketmine\Server;
 use pocketmine\world\Position;
 use Taskov1ch\LimboCrates\Main;
 use Taskov1ch\LimboCrates\sessions\Session;
+use WolfDen133\WFT\Texts\FloatingText;
 use WolfDen133\WFT\WFT;
 
 class Crate
 {
 	private Session $session;
 	private array $messages;
+	private FloatingText $floatingText;
 
 	public function __construct(
 		private Crates $cases,
@@ -25,9 +27,9 @@ class Crate
 		$tmpPosition->x += 0.5;
 		$tmpPosition->y += 1;
 		$tmpPosition->z += 0.5;
-		WFT::getInstance()->getTextManager()->registerText("lc_{$name}", $title, $tmpPosition, true, false);
+		$this->floatingText = WFT::getInstance()->getTextManager()->registerText("lc_{$name}", $title, $tmpPosition, true, false);
 		$this->session = new Session($this);
-		$this->messages = Main::getInstance()->getMessages();
+		$this->messages = Main::getInstance()->getMessages()["crate"];
 	}
 
 	public function getName(): string
@@ -76,12 +78,12 @@ class Crate
 			return;
 		}
 
-		Main::getInstance()->getKeysManager()->getKeys($player)->onCompletion(
+		Main::getInstance()->getKeysManager()->getKeys($player->getName())->onCompletion(
 			function(int $keys) use($player) {
 				if ($keys <= 0) {
 					$player->sendMessage("§cKeys 0 :(");
 				} else {
-					Main::getInstance()->getKeysManager()->takeKeys($player, 1);
+					Main::getInstance()->getKeysManager()->takeKeys($player->getName(), 1);
 					$this->session->handle($player);
 				}
 			},
@@ -89,8 +91,9 @@ class Crate
 		);
 	}
 
-	public function close($isForce = false): void
+	public function close($isForce = false, bool $serverShutdown = false): void
 	{
-		$this->session->close($isForce);
+		WFT::getInstance()->getTextManager()->removeText($this->floatingText->getName());
+		$this->session->close($isForce, $serverShutdown);
 	}
 }

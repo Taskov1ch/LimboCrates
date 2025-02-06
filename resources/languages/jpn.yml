@@ -1,0 +1,44 @@
+crate:
+  messages:
+    insufficient_keys: クレートを開けるための鍵が足りません。
+    crate_busy: クレートは現在、他のプレイヤーが開いています。
+    crate_opening: あなたはすでにこのクレートを開いています。
+    not_choose_time: 今はクレートを選択できません。
+
+  titles:
+    select_crate: クレートを選んでください！
+
+  subtitles:
+    ending: おめでとうございます！報酬を獲得しました！
+
+  tips:
+    choose_time_left: 残り{seconds}秒です。早くクレートを選んでください。
+
+  texts:
+    is_opening: "現在クレートを開けているプレイヤー: {player}"
+
+commands:
+  addkeys:
+    usage: "/addkeys <player: string> <keys: int>"
+    success: "{player} に {keys} 個の鍵を正常に付与しました。"
+
+  takekeys:
+    usage: "/takekeys <player: string> <keys: int>"
+    success: "{player} から {keys} 個の鍵を正常に削除しました。"
+
+  mykeys:
+    success: |-
+      現在、あなたは {keys} 個の鍵を持っています。
+      鍵は my-super-duper-donate-site.com で購入できます。
+
+  createcrate:
+    usage: "/createcrate <name: string>"
+    enable: クレートにしたいブロックをクリックしてください。
+    disable: クレート作成モードを終了しました。
+    success: クレート {crate} を正常に作成しました。設定は crates.yml で変更できます。
+    unsuccess: 何か問題が発生しました。おそらく、その名前のクレートはすでに存在するか、選択したブロックはすでに使用されています。
+
+  deletecrate:
+    usage: "/deletecrate <name: string>"
+    success: クレート {crate} を正常に削除しました。
+    unsuccess: その名前のクレートは存在しません。

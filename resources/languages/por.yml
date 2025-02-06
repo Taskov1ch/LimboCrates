@@ -1,0 +1,44 @@
+crate:
+  messages:
+    insufficient_keys: Você não tem chaves suficientes para abrir o baú.
+    crate_busy: O baú está sendo aberto por outro jogador.
+    crate_opening: Você já está abrindo este baú.
+    not_choose_time: Você não pode escolher um baú agora.
+
+  titles:
+    select_crate: Escolha seu baú!
+
+  subtitles:
+    ending: Parabéns pela sua recompensa!
+
+  tips:
+    choose_time_left: Restam {seconds}s. Escolha um baú rápido.
+
+  texts:
+    is_opening: "Atualmente abrindo o baú: {player}"
+
+commands:
+  addkeys:
+    usage: "/addkeys <player: string> <keys: int>"
+    success: "Você deu {keys} chaves para {player} com sucesso."
+
+  takekeys:
+    usage: "/takekeys <player: string> <keys: int>"
+    success: "Você removeu {keys} chaves de {player} com sucesso."
+
+  mykeys:
+    success: |-
+      Você tem atualmente {keys} chaves.
+      Você pode comprar chaves no site my-super-duper-donate-site.com.
+
+  createcrate:
+    usage: "/createcrate <name: string>"
+    enable: Clique no bloco que deseja transformar em um baú.
+    disable: Você saiu do modo de criação de baús.
+    success: Você criou o baú {crate} com sucesso. Todas as configurações podem ser alteradas em crates.yml.
+    unsuccess: Algo deu errado. Provavelmente já existe um baú com esse nome ou o bloco selecionado já está ocupado.
+
+  deletecrate:
+    usage: "/deletecrate <name: string>"
+    success: Você excluiu o baú {crate} com sucesso.
+    unsuccess: Nenhum baú com esse nome existe.

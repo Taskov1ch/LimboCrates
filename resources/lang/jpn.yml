@@ -1,0 +1,17 @@
+messages:
+  insufficient_keys: クレートを開けるための鍵が足りません。
+  crate_busy: クレートは現在、他のプレイヤーが開いています。
+  crate_opening: あなたはすでにこのクレートを開いています。
+  not_choose_time: 今はクレートを選択できません。
+
+titles:
+  select_crate: クレートを選んでください！
+
+subtitles:
+  ending: おめでとうございます！報酬を獲得しました！
+
+tips:
+  choose_time_left: 残り{seconds}秒です。早くクレートを選んでください。
+
+texts:
+  is_opening: "現在クレートを開けているプレイヤー: {player}"

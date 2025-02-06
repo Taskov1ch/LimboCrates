@@ -27,7 +27,7 @@ class EventsListener implements Listener
 		$block = $event->getBlock();
 		$crates = $this->main->getCratesManager();
 
-		if ($block instanceof EnderChest && $crates->playerInSession($player)) {
+		if ($block instanceof EnderChest && $crates->isCrateChest($block)) {
 			$event->cancel();
 			$crates->handleChest($player, $block);
 			return;

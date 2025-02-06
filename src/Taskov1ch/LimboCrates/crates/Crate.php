@@ -12,6 +12,7 @@ use WolfDen133\WFT\WFT;
 class Crate
 {
 	private Session $session;
+	private array $messages;
 
 	public function __construct(
 		private Crates $cases,
@@ -26,6 +27,7 @@ class Crate
 		$tmpPosition->z += 0.5;
 		WFT::getInstance()->getTextManager()->registerText("lc_{$name}", $title, $tmpPosition, true, false);
 		$this->session = new Session($this);
+		$this->messages = Main::getInstance()->getMessages();
 	}
 
 	public function getName(): string
@@ -60,7 +62,12 @@ class Crate
 		}
 
 		if ($this->session->isRunning()) {
-			$player->sendMessage("§cYou can't open this crate now");
+			if ($this->session->isTruePlayer($player)) {
+				$player->sendMessage($this->messages["messages"]["crate_opening"]);
+			} else {
+				$player->sendMessage($this->messages["messages"]["crate_busy"]);
+			}
+
 			return;
 		}
 

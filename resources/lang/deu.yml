@@ -1,0 +1,17 @@
+messages:
+  insufficient_keys: Du hast nicht genug Schlüssel, um die Kiste zu öffnen.
+  crate_busy: Die Kiste wird gerade von einem anderen Spieler geöffnet.
+  crate_opening: Du öffnest diese Kiste bereits.
+  not_choose_time: Du kannst momentan keine Kiste auswählen.
+
+titles:
+  select_crate: Wähle deine Kiste!
+
+subtitles:
+  ending: Glückwunsch zu deiner Belohnung!
+
+tips:
+  choose_time_left: Noch {seconds}s übrig. Wähle schnell eine Kiste.
+
+texts:
+  is_opening: "Gerade öffnet die Kiste: {player}"

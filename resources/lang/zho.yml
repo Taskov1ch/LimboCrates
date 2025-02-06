@@ -1,0 +1,17 @@
+messages:
+  insufficient_keys: 你没有足够的钥匙来打开箱子。
+  crate_busy: 该箱子正在被另一名玩家打开。
+  crate_opening: 你已经在打开这个箱子了。
+  not_choose_time: 你现在无法选择箱子。
+
+titles:
+  select_crate: 选择你的箱子！
+
+subtitles:
+  ending: 恭喜你获得奖励！
+
+tips:
+  choose_time_left: 还剩 {seconds} 秒。快选择一个箱子。
+
+texts:
+  is_opening: "当前正在打开箱子的玩家: {player}"

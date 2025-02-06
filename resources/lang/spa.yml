@@ -1,0 +1,17 @@
+messages:
+  insufficient_keys: No tienes suficientes llaves para abrir la caja.
+  crate_busy: La caja está siendo abierta por otro jugador.
+  crate_opening: Ya estás abriendo esta caja.
+  not_choose_time: No puedes elegir una caja en este momento.
+
+titles:
+  select_crate: ¡Elige tu caja!
+
+subtitles:
+  ending: ¡Felicidades por tu recompensa!
+
+tips:
+  choose_time_left: Quedan {seconds}s. ¡Elige una caja rápido!
+
+texts:
+  is_opening: "Actualmente abriendo la caja: {player}"

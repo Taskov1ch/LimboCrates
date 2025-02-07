@@ -2,7 +2,7 @@ name: LimboCrates
 version: 0.0.1-beta
 api: 5.0.0
 main: Taskov1ch\LimboCrates\Main
-loadbefore:
+softdepend:
   - WFT
 
 permissions:

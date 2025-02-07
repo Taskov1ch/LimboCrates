@@ -1,10 +1,9 @@
 build-by-default: true
 branches:
-- stable
+- pm5
 projects:
   LimboCrates:
     path: ""
-    icon: "icon.png"
     libs:
       - src: poggit/libasynql/libasynql
         version: ^4.1.6

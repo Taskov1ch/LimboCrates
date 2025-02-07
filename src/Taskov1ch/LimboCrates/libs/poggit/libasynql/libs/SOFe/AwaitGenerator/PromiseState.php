@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\libs\SOFe\AwaitGenerator;
 
-use Throwable;
-
 use function assert;
+
+use Throwable;
 
 abstract class PromiseState
 {

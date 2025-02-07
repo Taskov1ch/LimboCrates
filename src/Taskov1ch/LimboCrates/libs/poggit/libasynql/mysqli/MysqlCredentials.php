@@ -25,10 +25,10 @@ namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\mysqli;
 use JsonSerializable;
 use mysqli;
 use mysqli_sql_exception;
-use Taskov1ch\LimboCrates\libs\poggit\libasynql\ConfigException;
-use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlError;
-
 use function strlen;
+use Taskov1ch\LimboCrates\libs\poggit\libasynql\ConfigException;
+
+use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlError;
 
 class MysqlCredentials implements JsonSerializable
 {

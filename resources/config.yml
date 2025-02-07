@@ -1,4 +1,5 @@
-language: eng
+# Language file
+language: eng.yml
 
 database:
   # The database type. "sqlite" and "mysql" are supported.

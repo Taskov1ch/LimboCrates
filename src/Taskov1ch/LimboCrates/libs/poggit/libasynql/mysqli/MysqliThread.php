@@ -22,13 +22,30 @@ declare(strict_types=1);
 
 namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\mysqli;
 
+use function array_map;
+use function assert;
+use function bccomp;
+use function bcsub;
 use Closure;
+use function count;
+use function gettype;
+use function implode;
+use function in_array;
 use InvalidArgumentException;
+use function is_float;
+use function is_int;
+use function is_string;
+use function min;
 use mysqli;
 use mysqli_result;
 use mysqli_sql_exception;
+
+use const PHP_INT_MAX;
 use pocketmine\snooze\SleeperHandlerEntry;
 use pocketmine\thread\log\AttachableThreadSafeLogger;
+use function serialize;
+use function sleep;
+use function strtotime;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\base\QueryRecvQueue;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\base\QuerySendQueue;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\base\SqlSlaveThread;
@@ -40,24 +57,7 @@ use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlError;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlResult;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlThread;
 
-use function array_map;
-use function assert;
-use function bccomp;
-use function bcsub;
-use function count;
-use function gettype;
-use function implode;
-use function in_array;
-use function is_float;
-use function is_int;
-use function is_string;
-use function min;
-use function serialize;
-use function sleep;
-use function strtotime;
 use function unserialize;
-
-use const PHP_INT_MAX;
 
 class MysqliThread extends SqlSlaveThread
 {

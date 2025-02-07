@@ -1,0 +1,9 @@
+{
+	"format_version": "1.14.0",
+	"sound_definitions": {
+		"isolation.final_part": {
+			"category": "music",
+			"sounds": ["sounds/final_part"]
+		}
+	}
+}

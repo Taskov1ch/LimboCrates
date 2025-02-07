@@ -22,15 +22,27 @@ declare(strict_types=1);
 
 namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\sqlite3;
 
+use function assert;
 use Closure;
 use ErrorException;
 use Exception;
+use const INF;
 use InvalidArgumentException;
+use function is_array;
+use const NAN;
 use pocketmine\errorhandler\ErrorToExceptionHandler;
 use pocketmine\snooze\SleeperHandlerEntry;
 use SQLite3;
+use const SQLITE3_ASSOC;
+use const SQLITE3_BLOB;
+use const SQLITE3_FLOAT;
+use const SQLITE3_INTEGER;
+use const SQLITE3_NULL;
+use const SQLITE3_TEXT;
+
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\base\QueryRecvQueue;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\base\QuerySendQueue;
+
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\base\SqlSlaveThread;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\result\SqlChangeResult;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\result\SqlColumnInfo;
@@ -39,18 +51,6 @@ use Taskov1ch\LimboCrates\libs\poggit\libasynql\result\SqlSelectResult;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlError;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlResult;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlThread;
-
-use function assert;
-use function is_array;
-
-use const INF;
-use const NAN;
-use const SQLITE3_ASSOC;
-use const SQLITE3_BLOB;
-use const SQLITE3_FLOAT;
-use const SQLITE3_INTEGER;
-use const SQLITE3_NULL;
-use const SQLITE3_TEXT;
 
 class Sqlite3Thread extends SqlSlaveThread
 {

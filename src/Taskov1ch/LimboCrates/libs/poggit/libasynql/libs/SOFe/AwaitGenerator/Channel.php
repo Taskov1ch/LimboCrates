@@ -22,10 +22,10 @@ declare(strict_types=1);
 
 namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\libs\SOFe\AwaitGenerator;
 
-use Generator;
-
 use function array_shift;
+
 use function count;
+use Generator;
 
 /**
  * A channel allows coroutines to communicate by sending and polling values in an FIFO stream.

@@ -22,15 +22,15 @@ declare(strict_types=1);
 
 namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\libs\SOFe\AwaitGenerator;
 
-use Closure;
-use Exception;
-use Generator;
-use Throwable;
-
 use function assert;
+use Closure;
 use function count;
+use Exception;
+
+use Generator;
 use function is_a;
 use function is_callable;
+use Throwable;
 
 /**
  * @template T

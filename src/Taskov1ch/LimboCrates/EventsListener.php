@@ -21,6 +21,11 @@ class EventsListener implements Listener
 	public function onQuit(PlayerQuitEvent $event): void
 	{
 		$player = $event->getPlayer();
+
+		if (CreateCrateStates::inState($player)) {
+			CreateCrateStates::removeState($player);
+		}
+
 		$this->main->getCratesManager()->removeSession($player);
 	}
 

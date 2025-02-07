@@ -22,23 +22,23 @@ declare(strict_types=1);
 
 namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\generic;
 
-use InvalidArgumentException;
-use Taskov1ch\LimboCrates\libs\poggit\libasynql\GenericStatement;
-
 use function array_pop;
 use function assert;
+
 use function count;
 use function fclose;
 use function fgets;
 use function implode;
+use InvalidArgumentException;
 use function ltrim;
 use function preg_split;
-use function strpos;
-use function substr;
-use function trim;
-
 use const PREG_SPLIT_NO_EMPTY;
 use const PREG_SPLIT_OFFSET_CAPTURE;
+use function strpos;
+use function substr;
+
+use Taskov1ch\LimboCrates\libs\poggit\libasynql\GenericStatement;
+use function trim;
 
 class GenericStatementFileParser
 {

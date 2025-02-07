@@ -22,18 +22,26 @@ declare(strict_types=1);
 
 namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\base;
 
+use function array_fill;
+use function array_merge;
+use function array_pop;
+use function count;
 use Error;
 use Exception;
 use Generator;
 use InvalidArgumentException;
+use function is_resource;
+use function json_encode;
 use Logger;
 use pocketmine\plugin\Plugin;
 use pocketmine\utils\Terminal;
 use ReflectionClass;
+use function str_replace;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\DataConnector;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\generic\GenericStatementFileParser;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\GenericStatement;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\libasynql;
+
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\libs\SOFe\AwaitGenerator\Await;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\result\SqlChangeResult;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\result\SqlInsertResult;
@@ -41,14 +49,6 @@ use Taskov1ch\LimboCrates\libs\poggit\libasynql\result\SqlSelectResult;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlError;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlThread;
 use TypeError;
-
-use function array_fill;
-use function array_merge;
-use function array_pop;
-use function count;
-use function is_resource;
-use function json_encode;
-use function str_replace;
 
 class DataConnectorImpl implements DataConnector
 {

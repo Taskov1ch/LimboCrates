@@ -22,13 +22,13 @@ declare(strict_types=1);
 
 namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\base;
 
+use function is_string;
 use pmmp\thread\ThreadSafe;
 use pmmp\thread\ThreadSafeArray;
+use function serialize;
+
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlError;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlResult;
-
-use function is_string;
-use function serialize;
 use function unserialize;
 
 class QueryRecvQueue extends ThreadSafe

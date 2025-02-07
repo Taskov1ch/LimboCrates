@@ -30,7 +30,7 @@ class Crates
 		"name" => "Error",
 		"chance" => 100,
 		"commands" => [
-			"say pls add rewards"
+			"say pls, add rewards"
 		]
 	];
 
@@ -63,23 +63,23 @@ class Crates
 		}
 
 		if (!isset($data["world"])) {
-			$this->main->getLogger()->critical("Missing 'world' key for crate '$name'");
+			$this->main->getLogger()->error("Missing 'world' key for crate '$name'");
 			return false;
 		}
 
 		$world = $this->ensureWorldLoaded($data["world"]);
 
 		if ($world === null) {
-			$this->main->getLogger()->critical("World '{$data["world"]}' not found for crate '$name'");
+			$this->main->getLogger()->error("World '{$data["world"]}' not found for crate '$name'");
 			return false;
 		}
 
 		if (isset($data["position"]) && $data["position"] instanceof Position) {
 			$position = $data["position"];
 		} elseif (isset($data["x"], $data["y"], $data["z"])) {
-			$position = new Position((int)$data["x"], (int)$data["y"], (int)$data["z"], $world);
+			$position = new Position($data["x"], $data["y"], $data["z"], $world);
 		} else {
-			$this->main->getLogger()->critical("Missing position data for crate '$name'");
+			$this->main->getLogger()->error("Missing position data for crate '$name'");
 			return false;
 		}
 

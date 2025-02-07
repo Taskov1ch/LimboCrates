@@ -22,21 +22,21 @@ declare(strict_types=1);
 
 namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\generic;
 
-use AssertionError;
-use InvalidArgumentException;
-use JsonSerializable;
-use Taskov1ch\LimboCrates\libs\poggit\libasynql\GenericStatement;
-use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlDialect;
-
 use function array_key_exists;
+use AssertionError;
 use function get_class;
 use function gettype;
 use function in_array;
+
+use InvalidArgumentException;
 use function is_object;
+use JsonSerializable;
 use function mb_strlen;
 use function mb_strpos;
 use function mb_substr;
 use function str_replace;
+use Taskov1ch\LimboCrates\libs\poggit\libasynql\GenericStatement;
+use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlDialect;
 use function uksort;
 
 abstract class GenericStatementImpl implements GenericStatement, JsonSerializable

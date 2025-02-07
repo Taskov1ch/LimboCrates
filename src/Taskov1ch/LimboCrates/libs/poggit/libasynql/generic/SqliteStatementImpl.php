@@ -22,19 +22,19 @@ declare(strict_types=1);
 
 namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\generic;
 
-use InvalidArgumentException;
-use RuntimeException;
-use SQLite3;
-
 use function array_map;
 use function assert;
 use function bin2hex;
+
 use function implode;
+use InvalidArgumentException;
 use function is_array;
 use function is_bool;
 use function is_float;
 use function is_int;
 use function is_string;
+use RuntimeException;
+use SQLite3;
 use function strpos;
 
 class SqliteStatementImpl extends GenericStatementImpl

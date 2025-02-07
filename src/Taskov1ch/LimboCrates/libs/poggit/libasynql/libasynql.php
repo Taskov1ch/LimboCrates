@@ -22,23 +22,23 @@ declare(strict_types=1);
 
 namespace Taskov1ch\LimboCrates\libs\poggit\libasynql;
 
+use function array_keys;
+use function count;
+use function extension_loaded;
+use function implode;
 use InvalidArgumentException;
+use function is_array;
+use function is_string;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Terminal;
+
 use pocketmine\utils\Utils;
+use function strtolower;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\base\DataConnectorImpl;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\base\SqlThreadPool;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\mysqli\MysqlCredentials;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\mysqli\MysqliThread;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\sqlite3\Sqlite3Thread;
-
-use function array_keys;
-use function count;
-use function extension_loaded;
-use function implode;
-use function is_array;
-use function is_string;
-use function strtolower;
 use function usleep;
 
 /**

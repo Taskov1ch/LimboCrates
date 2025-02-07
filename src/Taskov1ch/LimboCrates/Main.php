@@ -70,7 +70,7 @@ class Main extends PluginBase
 		}
 
 		$this->messages = (new Config(
-			Path::join($langPath, $this->getConfig()->get("language") . ".yml")
+			Path::join($langPath, $this->getConfig()->get("language"))
 		)
 		)->getAll();
 		$this->crates = new Crates($this);

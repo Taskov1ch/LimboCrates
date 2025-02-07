@@ -23,13 +23,20 @@ class Crate
 		private string $title,
 		private array $rewards
 	) {
-		$tmpPosition = clone $position;
-		$tmpPosition->x += 0.5;
-		$tmpPosition->y += 1;
-		$tmpPosition->z += 0.5;
-		$this->floatingText = WFT::getInstance()->getTextManager()->registerText("lc_{$name}", $title, $tmpPosition, true, false);
+		$tmpPos = clone $position;
+		$tmpPos->x += 0.5;
+		$tmpPos->y += 1;
+		$tmpPos->z += 0.5;
+
+		$this->floatingText = WFT::getInstance()->getTextManager()->registerText(
+			"lc_{$name}",
+			$title,
+			$tmpPos,
+			true,
+			false
+		);
 		$this->session = new Session($this);
-		$this->messages = Main::getInstance()->getMessages()["crate"];
+		$this->messages = Main::getInstance()->getMessages()["crate"]["messages"];
 	}
 
 	public function getName(): string
@@ -65,9 +72,9 @@ class Crate
 
 		if ($this->session->isRunning()) {
 			if ($this->session->isTruePlayer($player)) {
-				$player->sendMessage($this->messages["messages"]["crate_opening"]);
+				$player->sendMessage($this->messages["crate_opening"]);
 			} else {
-				$player->sendMessage($this->messages["messages"]["crate_busy"]);
+				$player->sendMessage($this->messages["crate_busy"]);
 			}
 
 			return;
@@ -81,7 +88,7 @@ class Crate
 		Main::getInstance()->getKeysManager()->getKeys($player->getName())->onCompletion(
 			function (int $keys) use ($player) {
 				if ($keys <= 0) {
-					$player->sendMessage("§cKeys 0 :(");
+					$player->sendMessage($this->messages["insufficient_keys"]);
 				} else {
 					Main::getInstance()->getKeysManager()->takeKeys($player->getName(), 1);
 					$this->session->handle($player);

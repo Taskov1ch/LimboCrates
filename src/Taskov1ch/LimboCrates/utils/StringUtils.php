@@ -4,7 +4,6 @@ namespace Taskov1ch\LimboCrates\utils;
 
 class StringUtils
 {
-
 	public static function steriliseString(string $string): string
 	{
 		$string = strtolower($string);

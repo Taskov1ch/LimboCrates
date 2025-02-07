@@ -79,7 +79,7 @@ class Crate
 		}
 
 		Main::getInstance()->getKeysManager()->getKeys($player->getName())->onCompletion(
-			function(int $keys) use($player) {
+			function (int $keys) use ($player) {
 				if ($keys <= 0) {
 					$player->sendMessage("§cKeys 0 :(");
 				} else {

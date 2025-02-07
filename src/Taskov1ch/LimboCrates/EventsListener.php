@@ -2,7 +2,6 @@
 
 namespace Taskov1ch\LimboCrates;
 
-use pocketmine\block\Chest;
 use pocketmine\block\EnderChest;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\Listener;
@@ -37,7 +36,8 @@ class EventsListener implements Listener
 			$attempt = $crates->registerCrate($crate, $block->getPosition());
 			$player->sendMessage(
 				str_replace(
-					"{crate}", $crate,
+					"{crate}",
+					$crate,
 					$this->messages["commands"]["createcrate"][$attempt ? "success" : "unsuccess"]
 				)
 			);

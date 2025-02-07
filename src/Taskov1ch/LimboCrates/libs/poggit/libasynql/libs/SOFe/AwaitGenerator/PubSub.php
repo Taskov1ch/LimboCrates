@@ -50,7 +50,7 @@ final class PubSub
 	 *
 	 * @phpstan-param T $item
 	 */
-	public function publish($item) : void
+	public function publish($item): void
 	{
 		foreach ($this->subscribers as $subscriber) {
 			$subscriber->sendWithoutWait($item);
@@ -84,9 +84,9 @@ final class PubSub
 	 *
 	 * @return Traverser<T>
 	 */
-	public function subscribe() : Traverser
+	public function subscribe(): Traverser
 	{
-		$channel = new Channel;
+		$channel = new Channel();
 
 		return Traverser::fromClosure(function () use ($channel) {
 			try {
@@ -102,12 +102,12 @@ final class PubSub
 		});
 	}
 
-	public function isEmpty() : bool
+	public function isEmpty(): bool
 	{
 		return count($this->subscribers) === 0;
 	}
 
-	public function getSubscriberCount() : int
+	public function getSubscriberCount(): int
 	{
 		return count($this->subscribers);
 	}

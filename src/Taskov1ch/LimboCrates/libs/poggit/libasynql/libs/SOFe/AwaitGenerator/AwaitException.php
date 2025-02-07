@@ -26,5 +26,4 @@ use RuntimeException;
 
 class AwaitException extends RuntimeException
 {
-
 }

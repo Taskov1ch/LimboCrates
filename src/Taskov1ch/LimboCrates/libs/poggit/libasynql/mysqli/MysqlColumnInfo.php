@@ -36,17 +36,17 @@ class MysqlColumnInfo extends SqlColumnInfo
 		$this->mysqlType = $mysqlType;
 	}
 
-	public function getFlags() : int
+	public function getFlags(): int
 	{
 		return $this->flags;
 	}
 
-	public function hasFlag(int $flag) : bool
+	public function hasFlag(int $flag): bool
 	{
 		return ($this->flags & $flag) > 0;
 	}
 
-	public function getMysqlType() : int
+	public function getMysqlType(): int
 	{
 		return $this->mysqlType;
 	}

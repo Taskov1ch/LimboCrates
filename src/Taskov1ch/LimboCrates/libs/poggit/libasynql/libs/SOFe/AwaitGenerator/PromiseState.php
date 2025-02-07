@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\libs\SOFe\AwaitGenerator;
 
 use Throwable;
+
 use function assert;
 
 abstract class PromiseState
@@ -44,7 +45,7 @@ abstract class PromiseState
 	/**
 	 * @param mixed $value
 	 */
-	public function resolve($value) : void
+	public function resolve($value): void
 	{
 		assert($this->state === self::STATE_PENDING);
 
@@ -52,7 +53,7 @@ abstract class PromiseState
 		$this->resolved = $value;
 	}
 
-	public function reject(Throwable $value) : void
+	public function reject(Throwable $value): void
 	{
 		assert($this->state === self::STATE_PENDING);
 

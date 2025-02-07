@@ -24,5 +24,4 @@ namespace Taskov1ch\LimboCrates\libs\poggit\libasynql;
 
 class SqlResult
 {
-
 }

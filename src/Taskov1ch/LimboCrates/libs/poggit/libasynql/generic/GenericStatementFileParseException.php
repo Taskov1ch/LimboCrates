@@ -39,17 +39,17 @@ class GenericStatementFileParseException extends InvalidArgumentException
 		parent::__construct("Error parsing prepared statement file: $problem on line $lineNo in $file");
 	}
 
-	public function getProblem() : string
+	public function getProblem(): string
 	{
 		return $this->problem;
 	}
 
-	public function getLineNo() : int
+	public function getLineNo(): int
 	{
 		return $this->lineNo;
 	}
 
-	public function getQueryFile() : string
+	public function getQueryFile(): string
 	{
 		return $this->queryFile;
 	}

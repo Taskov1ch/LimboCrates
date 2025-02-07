@@ -63,7 +63,7 @@ final class Loading
 	/**
 	 * @return array{Loading<T>, Closure(T): void}
 	 */
-	public static function byCallback() : array
+	public static function byCallback(): array
 	{
 		$callback = null;
 		$loading = new self(function () use (&$callback) {
@@ -77,7 +77,7 @@ final class Loading
 	/**
 	 * @return Generator<mixed, Await::RESOLVE|null|Await::RESOLVE_MULTI|Await::REJECT|Await::ONCE|Await::ALL|Await::RACE|Generator, mixed, T>
 	 */
-	public function get() : Generator
+	public function get(): Generator
 	{
 		if ($this->onLoaded !== null) {
 			try {

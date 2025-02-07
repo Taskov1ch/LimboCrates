@@ -54,12 +54,12 @@ final class Mutex
 	 * Returns whether the mutex is idle,
 	 * i.e. not acquired by any coroutine.
 	 */
-	public function isIdle() : bool
+	public function isIdle(): bool
 	{
 		return !$this->acquired;
 	}
 
-	public function acquire() : Generator
+	public function acquire(): Generator
 	{
 		if (!$this->acquired) {
 			// Mutex is idle, no extra work to do
@@ -76,7 +76,7 @@ final class Mutex
 		}
 	}
 
-	public function release() : void
+	public function release(): void
 	{
 		if (!$this->acquired) {
 			throw new RuntimeException("Attempt to release a released mutex");
@@ -103,7 +103,7 @@ final class Mutex
 	 * @param Closure(): Generator<mixed, Await::RESOLVE|null|Await::RESOLVE_MULTI|Await::REJECT|Await::ONCE|Await::ALL|Await::RACE|Generator, mixed, T> $generatorClosure
 	 * @return Generator<mixed, Await::RESOLVE|null|Await::RESOLVE_MULTI|Await::REJECT|Await::ONCE|Await::ALL|Await::RACE|Generator, mixed, T>
 	 */
-	public function runClosure(Closure $generatorClosure) : Generator
+	public function runClosure(Closure $generatorClosure): Generator
 	{
 		return yield from $this->run($generatorClosure());
 	}
@@ -113,7 +113,7 @@ final class Mutex
 	 * @param Generator<mixed, Await::RESOLVE|null|Await::RESOLVE_MULTI|Await::REJECT|Await::ONCE|Await::ALL|Await::RACE|Generator, mixed, T> $generator
 	 * @return Generator<mixed, Await::RESOLVE|null|Await::RESOLVE_MULTI|Await::REJECT|Await::ONCE|Await::ALL|Await::RACE|Generator, mixed, T>
 	 */
-	public function run(Generator $generator) : Generator
+	public function run(Generator $generator): Generator
 	{
 		yield from $this->acquire();
 		try {

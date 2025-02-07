@@ -39,7 +39,7 @@ interface SqlThread
 	/**
 	 * Signals the thread to stop waiting for queries when the send buffer is cleared.
 	 */
-	public function stopRunning() : void;
+	public function stopRunning(): void;
 
 	/**
 	 * Adds a query to the queue.
@@ -49,7 +49,7 @@ interface SqlThread
 	 * @param string[] $query
 	 * @param mixed[]  $params
 	 */
-	public function addQuery(int $queryId, array $modes, array $queries, array $params) : void;
+	public function addQuery(int $queryId, array $modes, array $queries, array $params): void;
 
 	/**
 	 * Handles the results that this query has completed
@@ -57,26 +57,26 @@ interface SqlThread
 	 * @param callable[] $callbacks
 	 * @param int|null $expectedResults
 	 */
-	public function readResults(array &$callbacks, ?int $expectedResults) : void;
+	public function readResults(array &$callbacks, ?int $expectedResults): void;
 
 	/**
 	 * Checks if the initial connection has been made, no matter successful or not.
 	 *
 	 * @return bool
 	 */
-	public function connCreated() : bool;
+	public function connCreated(): bool;
 
 	/**
 	 * Checks if the initial connection failed.
 	 *
 	 * @return bool
 	 */
-	public function hasConnError() : bool;
+	public function hasConnError(): bool;
 
 	/**
 	 * Gets the error of the initial connection.
 	 *
 	 * @return null|string
 	 */
-	public function getConnError() : ?string;
+	public function getConnError(): ?string;
 }

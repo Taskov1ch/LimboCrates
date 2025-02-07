@@ -27,6 +27,7 @@ use mysqli;
 use mysqli_sql_exception;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\ConfigException;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlError;
+
 use function strlen;
 
 class MysqlCredentials implements JsonSerializable
@@ -62,7 +63,7 @@ class MysqlCredentials implements JsonSerializable
 	 * @return MysqlCredentials
 	 * @throws ConfigException If <code>schema</code> is missing and <code>$defaultSchema</code> is null/not passed
 	 */
-	public static function fromArray(array $array, ?string $defaultSchema = null) : MysqlCredentials
+	public static function fromArray(array $array, ?string $defaultSchema = null): MysqlCredentials
 	{
 		if (!isset($defaultSchema, $array["schema"])) {
 			throw new ConfigException("The attribute \"schema\" is missing in the MySQL settings");
@@ -107,7 +108,7 @@ class MysqlCredentials implements JsonSerializable
 	 *
 	 * @throws SqlError
 	 */
-	public function newMysqli() : mysqli
+	public function newMysqli(): mysqli
 	{
 		$mysqli = mysqli_init();
 		if ($mysqli === false) {
@@ -144,7 +145,7 @@ class MysqlCredentials implements JsonSerializable
 	 *
 	 * @throws SqlError
 	 */
-	public function reconnectMysqli(mysqli $mysqli) : void
+	public function reconnectMysqli(mysqli $mysqli): void
 	{
 		try {
 			@mysqli_real_connect($mysqli, $this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
@@ -161,7 +162,7 @@ class MysqlCredentials implements JsonSerializable
 	 *
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return "$this->username@$this->host:$this->port/schema,$this->socket";
 	}
@@ -184,7 +185,7 @@ class MysqlCredentials implements JsonSerializable
 		];
 	}
 
-	public function jsonSerialize() : array
+	public function jsonSerialize(): array
 	{
 		return [
 			"host" => $this->host,

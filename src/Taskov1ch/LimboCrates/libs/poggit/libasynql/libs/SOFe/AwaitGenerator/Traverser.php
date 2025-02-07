@@ -52,7 +52,7 @@ final class Traverser
 	/**
 	 * @phpstan-param Closure(): Generator $closure
 	 */
-	public static function fromClosure(Closure $closure) : self
+	public static function fromClosure(Closure $closure): self
 	{
 		return new self($closure());
 	}
@@ -65,7 +65,7 @@ final class Traverser
 	 *
 	 * @param-out I $valueRef
 	 */
-	public function next(mixed &$valueRef) : Generator
+	public function next(mixed &$valueRef): Generator
 	{
 		while ($this->inner->valid()) {
 			$k = $this->inner->key();
@@ -90,7 +90,7 @@ final class Traverser
 	 *
 	 * @return Generator<mixed, mixed, mixed, list<I>>
 	 */
-	public function collect() : Generator
+	public function collect(): Generator
 	{
 		$array = [];
 		while (yield from $this->next($value)) {
@@ -112,7 +112,7 @@ final class Traverser
 	 *
 	 * All values iterated during interruption are discarded.
 	 */
-	public function interrupt(Throwable $ex = null, int $attempts = self::MAX_INTERRUPTS) : Generator
+	public function interrupt(Throwable $ex = null, int $attempts = self::MAX_INTERRUPTS): Generator
 	{
 		$ex = $ex ?? InterruptException::get();
 		for ($i = 0; $i < $attempts; $i++) {
@@ -142,7 +142,7 @@ final class Traverser
 	 * ```
 	 * Then `$namespace1Traverser` and `$namespace2Traverser` are fully interchangeable wherever type check passes.
 	 */
-	public function asGenerator() : Generator
+	public function asGenerator(): Generator
 	{
 		return $this->inner;
 	}

@@ -27,6 +27,7 @@ use InvalidArgumentException;
 use JsonSerializable;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\GenericStatement;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlDialect;
+
 use function array_key_exists;
 use function get_class;
 use function gettype;
@@ -58,37 +59,37 @@ abstract class GenericStatementImpl implements GenericStatement, JsonSerializabl
 	/** @var string[][] */
 	protected $varPositions = [];
 
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->name;
 	}
 
-	public function getQuery() : array
+	public function getQuery(): array
 	{
 		return $this->query;
 	}
 
-	public function getDoc() : string
+	public function getDoc(): string
 	{
 		return $this->doc;
 	}
 
-	public function getOrderedVariables() : array
+	public function getOrderedVariables(): array
 	{
 		return $this->orderedVariables;
 	}
 
-	public function getVariables() : array
+	public function getVariables(): array
 	{
 		return $this->variables;
 	}
 
-	public function getFile() : ?string
+	public function getFile(): ?string
 	{
 		return $this->file;
 	}
 
-	public function getLineNumber() : int
+	public function getLineNumber(): int
 	{
 		return $this->lineNo;
 	}
@@ -103,7 +104,7 @@ abstract class GenericStatementImpl implements GenericStatement, JsonSerializabl
 	 * @param int               $lineNo
 	 * @return GenericStatementImpl
 	 */
-	public static function forDialect(string $dialect, string $name, array $query, string $doc, array $variables, ?string $file, int $lineNo) : GenericStatementImpl
+	public static function forDialect(string $dialect, string $name, array $query, string $doc, array $variables, ?string $file, int $lineNo): GenericStatementImpl
 	{
 		static $classMap = [
 			SqlDialect::MYSQL => MysqlStatementImpl::class,
@@ -126,7 +127,7 @@ abstract class GenericStatementImpl implements GenericStatement, JsonSerializabl
 		$this->compilePositions();
 	}
 
-	protected function compilePositions() : void
+	protected function compilePositions(): void
 	{
 		uksort($this->variables, static function ($s1, $s2) {
 			return mb_strlen($s2) <=> mb_strlen($s1);
@@ -200,7 +201,7 @@ abstract class GenericStatementImpl implements GenericStatement, JsonSerializabl
 		}
 	}
 
-	public function format(array $vars, ?string $placeHolder, ?array &$outArgs) : array
+	public function format(array $vars, ?string $placeHolder, ?array &$outArgs): array
 	{
 		$outArgs = [];
 		$queries = [];
@@ -241,7 +242,7 @@ abstract class GenericStatementImpl implements GenericStatement, JsonSerializabl
 		return is_object($value) ? get_class($value) : gettype($value);
 	}
 
-	abstract protected function formatVariable(GenericVariable $variable, $value, ?string $placeHolder, array &$outArgs) : string;
+	abstract protected function formatVariable(GenericVariable $variable, $value, ?string $placeHolder, array &$outArgs): string;
 
 	public function jsonSerialize(): array
 	{

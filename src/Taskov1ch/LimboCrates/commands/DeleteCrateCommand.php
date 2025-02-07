@@ -15,7 +15,8 @@ class DeleteCrateCommand extends Command implements PluginOwned
 
 	private array $messages;
 
-	public function __construct(Main $main, string $name, string $description) {
+	public function __construct(Main $main, string $name, string $description)
+	{
 		parent::__construct($name, $description);
 		$this->setPermission("limbo.crates.{$name}");
 		$this->messages = $main->getMessages()["commands"][$name];
@@ -38,7 +39,8 @@ class DeleteCrateCommand extends Command implements PluginOwned
 
 		$attempt = $main->getCratesManager()->unregisterCrate($args[0]);
 		$sender->sendMessage(str_replace(
-			"{crate}", $args[0],
+			"{crate}",
+			$args[0],
 			$this->messages[$attempt ? "success" : "unsuccess"]
 		));
 	}

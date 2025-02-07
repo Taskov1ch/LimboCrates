@@ -63,7 +63,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread
 		$this->start(NativeThread::INHERIT_INI);
 	}
 
-	protected function onRun() : void
+	protected function onRun(): void
 	{
 		$error = $this->createConn($resource);
 		$this->connCreated = true;
@@ -102,30 +102,30 @@ abstract class SqlSlaveThread extends Thread implements SqlThread
 	/**
 	 * @return bool
 	 */
-	public function isBusy() : bool
+	public function isBusy(): bool
 	{
 		return $this->busy;
 	}
 
-	public function stopRunning() : void
+	public function stopRunning(): void
 	{
 		$this->bufferSend->invalidate();
 
 		parent::quit();
 	}
 
-	public function quit() : void
+	public function quit(): void
 	{
 		$this->stopRunning();
 		parent::quit();
 	}
 
-	public function addQuery(int $queryId, array $modes, array $queries, array $params) : void
+	public function addQuery(int $queryId, array $modes, array $queries, array $params): void
 	{
 		$this->bufferSend->scheduleQuery($queryId, $modes, $queries, $params);
 	}
 
-	public function readResults(array &$callbacks, ?int $expectedResults) : void
+	public function readResults(array &$callbacks, ?int $expectedResults): void
 	{
 		if ($expectedResults === null) {
 			$resultsList = $this->bufferRecv->fetchAllResults();
@@ -142,22 +142,22 @@ abstract class SqlSlaveThread extends Thread implements SqlThread
 		}
 	}
 
-	public function connCreated() : bool
+	public function connCreated(): bool
 	{
 		return $this->connCreated;
 	}
 
-	public function hasConnError() : bool
+	public function hasConnError(): bool
 	{
 		return $this->connError !== null;
 	}
 
-	public function getConnError() : ?string
+	public function getConnError(): ?string
 	{
 		return $this->connError;
 	}
 
-	abstract protected function createConn(&$resource) : ?string;
+	abstract protected function createConn(&$resource): ?string;
 
 	/**
 	 * @param mixed   $resource
@@ -168,7 +168,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread
 	 * @return SqlResult
 	 * @throws SqlError
 	 */
-	abstract protected function executeQuery($resource, int $mode, string $query, array $params) : SqlResult;
+	abstract protected function executeQuery($resource, int $mode, string $query, array $params): SqlResult;
 
-	abstract protected function close(&$resource) : void;
+	abstract protected function close(&$resource): void;
 }

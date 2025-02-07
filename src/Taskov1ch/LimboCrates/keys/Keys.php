@@ -28,7 +28,7 @@ class Keys
 		$this->db->executeInsert(
 			"keys.guarantee",
 			compact("player"),
-			fn() => $promise->resolve(true)
+			fn () => $promise->resolve(true)
 		);
 		return $promise->getPromise();
 	}
@@ -37,10 +37,10 @@ class Keys
 	{
 		$player = strtolower($player);
 		$this->guarantee($player)->onCompletion(
-			function() use($player, $keys, $query, $onSuccess): void {
+			function () use ($player, $keys, $query, $onSuccess): void {
 				$this->db->executeChange($query, compact("player", "keys"), $onSuccess);
 			},
-			fn() => null
+			fn () => null
 		);
 
 		if ($wait) {
@@ -54,12 +54,12 @@ class Keys
 		$promise = new PromiseResolver();
 
 		$this->guarantee($player)->onCompletion(
-			function(?bool $success = null) use($player, $promise) {
+			function (?bool $success = null) use ($player, $promise) {
 				$this->db->executeSelect(
 					"keys.get",
 					compact("player"),
-					fn(array $rows) => $success ? $promise->resolve($rows[0]["keys"]) : $promise->reject(),
-					fn() => $promise->reject()
+					fn (array $rows) => $success ? $promise->resolve($rows[0]["keys"]) : $promise->reject(),
+					fn () => $promise->reject()
 				);
 			},
 			fn () => $promise->reject()

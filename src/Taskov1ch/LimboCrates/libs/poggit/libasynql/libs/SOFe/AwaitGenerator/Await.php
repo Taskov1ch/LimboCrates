@@ -26,6 +26,7 @@ use Closure;
 use Exception;
 use Generator;
 use Throwable;
+
 use function assert;
 use function count;
 use function is_a;
@@ -95,7 +96,7 @@ class Await extends PromiseState
 	 *
 	 * @return Await<T>
 	 */
-	public static function f2c(callable $closure, ?callable $onComplete = null, $catches = []) : Await
+	public static function f2c(callable $closure, ?callable $onComplete = null, $catches = []): Await
 	{
 		return self::g2c($closure(), $onComplete, $catches);
 	}
@@ -112,7 +113,7 @@ class Await extends PromiseState
 	 *
 	 * @return Await<T>
 	 */
-	public static function g2c(Generator $generator, ?callable $onComplete = null, $catches = []) : Await
+	public static function g2c(Generator $generator, ?callable $onComplete = null, $catches = []): Await
 	{
 		/** @var Await<T> $await */
 		$await = new Await();
@@ -140,7 +141,7 @@ class Await extends PromiseState
 	 * @param Generator<mixed, Await::RESOLVE|null|Await::RESOLVE_MULTI|Await::REJECT|Await::ONCE|Await::ALL|Await::RACE|Generator, mixed, U>[] $generators
 	 * @return Generator<mixed, Await::RESOLVE|null|Await::RESOLVE_MULTI|Await::REJECT|Await::ONCE|Await::ALL|Await::RACE|Generator, mixed, U[]>
 	 */
-	public static function all(array $generators) : Generator
+	public static function all(array $generators): Generator
 	{
 		if (count($generators) === 0) {
 			return [];
@@ -149,7 +150,7 @@ class Await extends PromiseState
 		foreach ($generators as $k => $generator) {
 			$resolve = yield;
 			$reject = yield self::REJECT;
-			self::g2c($generator, static function ($result) use ($k, $resolve) : void {
+			self::g2c($generator, static function ($result) use ($k, $resolve): void {
 				$resolve([$k, $result]);
 			}, $reject);
 		}
@@ -184,7 +185,7 @@ class Await extends PromiseState
 	 * @deprecated `Await::race` does not clean up losing generators. Use `safeRace` instead.
 	 * @see Await::safeRace
 	 */
-	public static function race(array $generators) : Generator
+	public static function race(array $generators): Generator
 	{
 		if (count($generators) === 0) {
 			throw new AwaitException("Cannot race an empty array of generators");
@@ -193,7 +194,7 @@ class Await extends PromiseState
 		foreach ($generators as $k => $generator) {
 			$resolve = yield;
 			$reject = yield self::REJECT;
-			self::g2c($generator, static function ($result) use ($k, $resolve) : void {
+			self::g2c($generator, static function ($result) use ($k, $resolve): void {
 				$resolve([$k, $result]);
 			}, $reject);
 		}
@@ -210,12 +211,12 @@ class Await extends PromiseState
 	 * @param array<K, Generator<mixed, Await::RESOLVE|null|Await::RESOLVE_MULTI|Await::REJECT|Await::ONCE|Await::ALL|Await::RACE|Generator, mixed, U>> $inputs
 	 * @return array<K, Generator<mixed, Await::RESOLVE|null|Await::RESOLVE_MULTI|Await::REJECT|Await::ONCE|Await::ALL|Await::RACE|Generator, mixed, U>>
 	 */
-	private static function raceSemaphore(array $inputs) : array
+	private static function raceSemaphore(array $inputs): array
 	{
 		$wrapped = [];
 
 		// This channel acts as a semaphore that only starts one input at a time.
-		$ch = new Channel;
+		$ch = new Channel();
 		$ch->sendWithoutWait(null);
 
 		foreach ($inputs as $k => $input) {
@@ -258,7 +259,7 @@ class Await extends PromiseState
 	 * @param array<K, Generator<mixed, Await::RESOLVE|null|Await::RESOLVE_MULTI|Await::REJECT|Await::ONCE|Await::ALL|Await::RACE|Generator, mixed, U>> $generators
 	 * @return Generator<mixed, Await::RESOLVE|null|Await::RESOLVE_MULTI|Await::REJECT|Await::ONCE|Await::ALL|Await::RACE|Generator, mixed, array{K, U}>
 	 */
-	public static function safeRace(array $generators) : Generator
+	public static function safeRace(array $generators): Generator
 	{
 		$generators = self::raceSemaphore($generators);
 		;
@@ -277,7 +278,7 @@ class Await extends PromiseState
 			foreach ($generators as $key => $generator) {
 				if ($which !== null && $key !== $which) {
 					try {
-						$generator->throw(new RaceLostException);
+						$generator->throw(new RaceLostException());
 					} catch (RaceLostException $e) {
 						// expected
 					} catch (Throwable $e) {
@@ -300,7 +301,7 @@ class Await extends PromiseState
 	 * @param Closure(Closure(U=): void, Closure(Throwable): void): void $closure
 	 * @return Generator<mixed, Await::RESOLVE|null|Await::RESOLVE_MULTI|Await::REJECT|Await::ONCE|Await::ALL|Await::RACE|Generator, mixed, U>
 	 */
-	public static function promise(Closure $closure) : Generator
+	public static function promise(Closure $closure): Generator
 	{
 		$resolve = yield Await::RESOLVE;
 		$reject = yield Await::REJECT;
@@ -317,7 +318,7 @@ class Await extends PromiseState
 	 *
 	 * @internal This is implementation detail. Existence, signature and behaviour are semver-exempt.
 	 */
-	public function wakeupFlat(?callable $executor) : void
+	public function wakeupFlat(?callable $executor): void
 	{
 		while ($executor !== null) {
 			$executor = $this->wakeup($executor);
@@ -332,7 +333,7 @@ class Await extends PromiseState
 	 *
 	 * @return (callable(): void)|null
 	 */
-	private function wakeup(callable $executor) : ?callable
+	private function wakeup(callable $executor): ?callable
 	{
 		try {
 			$this->sleeping = false;
@@ -352,7 +353,7 @@ class Await extends PromiseState
 		$this->current = $current = $this->generator->current() ?? self::RESOLVE;
 
 		if ($current === self::RESOLVE) {
-			return function () : void {
+			return function (): void {
 				$promise = new AwaitChild($this);
 				$this->promiseQueue[] = $promise;
 				$this->lastResolveUnrejected = $promise;
@@ -361,11 +362,11 @@ class Await extends PromiseState
 		}
 
 		if ($current === self::RESOLVE_MULTI) {
-			return function () : void {
+			return function (): void {
 				$promise = new AwaitChild($this);
 				$this->promiseQueue[] = $promise;
 				$this->lastResolveUnrejected = $promise;
-				$this->generator->send(static function (...$args) use ($promise) : void {
+				$this->generator->send(static function (...$args) use ($promise): void {
 					$promise->resolve($args);
 				});
 			};
@@ -376,7 +377,7 @@ class Await extends PromiseState
 				$this->reject(new AwaitException("Cannot yield Await::REJECT without yielding Await::RESOLVE first; they must be yielded in pairs"));
 				return null;
 			}
-			return function () : void {
+			return function (): void {
 				$promise = $this->lastResolveUnrejected;
 				assert($promise !== null);
 				$this->lastResolveUnrejected = null;
@@ -413,12 +414,12 @@ class Await extends PromiseState
 				$this->promiseQueue = [];
 				assert(isset($result));
 				if ($hasResult === 1) {
-					return function () use ($result) : void {
+					return function () use ($result): void {
 						$this->generator->send($result);
 					};
 				}
 				assert($hasResult === 2);
-				return function () use ($result) : void {
+				return function () use ($result): void {
 					$this->generator->throw($result);
 				};
 			}
@@ -443,7 +444,7 @@ class Await extends PromiseState
 					}
 					$this->promiseQueue = [];
 					$ex = $promise->rejected;
-					return function () use ($ex) : void {
+					return function () use ($ex): void {
 						$this->generator->throw($ex);
 					};
 				}
@@ -461,7 +462,7 @@ class Await extends PromiseState
 
 			// all resolved
 			$this->promiseQueue = [];
-			return function () use ($current, $results) : void {
+			return function () use ($current, $results): void {
 				$this->generator->send($current === self::ONCE ? $results[0] : $results);
 			};
 		}
@@ -482,13 +483,13 @@ class Await extends PromiseState
 
 			if ($await->state === self::STATE_RESOLVED) {
 				$return = $await->resolved;
-				return function () use ($return) : void {
+				return function () use ($return): void {
 					$this->generator->send($return);
 				};
 			}
 			if ($await->state === self::STATE_REJECTED) {
 				$ex = $await->rejected;
-				return function () use ($ex) : void {
+				return function () use ($ex): void {
 					$this->generator->throw($ex);
 				};
 			}
@@ -508,7 +509,7 @@ class Await extends PromiseState
 	 *
 	 * @internal This is implementation detail. Existence, signature and behaviour are semver-exempt.
 	 */
-	public function recheckPromiseQueue(AwaitChild $changed) : void
+	public function recheckPromiseQueue(AwaitChild $changed): void
 	{
 		assert($this->sleeping);
 		if ($this->current === self::ONCE) {
@@ -523,12 +524,12 @@ class Await extends PromiseState
 
 			if ($changed->state === self::STATE_REJECTED) {
 				$ex = $changed->rejected;
-				$this->wakeupFlat(function () use ($ex) : void {
+				$this->wakeupFlat(function () use ($ex): void {
 					$this->generator->throw($ex);
 				});
 			} else {
 				$value = $changed->resolved;
-				$this->wakeupFlat(function () use ($value) : void {
+				$this->wakeupFlat(function () use ($value): void {
 					$this->generator->send($value);
 				});
 			}
@@ -547,7 +548,7 @@ class Await extends PromiseState
 				}
 				$this->promiseQueue = [];
 				$ex = $promise->rejected;
-				$this->wakeupFlat(function () use ($ex) : void {
+				$this->wakeupFlat(function () use ($ex): void {
 					$this->generator->throw($ex);
 				});
 				return;
@@ -557,7 +558,7 @@ class Await extends PromiseState
 		}
 		// all resolved
 		$this->promiseQueue = [];
-		$this->wakeupFlat(function () use ($current, $results) : void {
+		$this->wakeupFlat(function () use ($current, $results): void {
 			$this->generator->send($current === self::ONCE ? $results[0] : $results);
 		});
 	}
@@ -567,7 +568,7 @@ class Await extends PromiseState
 	 *
 	 * @internal This is implementation detail. Existence, signature and behaviour are semver-exempt.
 	 */
-	public function resolve($value) : void
+	public function resolve($value): void
 	{
 		if (!empty($this->promiseQueue)) {
 			$this->reject(new UnawaitedCallbackException("Resolution of await generator"));
@@ -583,7 +584,7 @@ class Await extends PromiseState
 	/**
 	 * @internal This is implementation detail. Existence, signature and behaviour are semver-exempt.
 	 */
-	public function reject(Throwable $throwable) : void
+	public function reject(Throwable $throwable): void
 	{
 		$this->sleeping = true;
 
@@ -600,7 +601,7 @@ class Await extends PromiseState
 	/**
 	 * @internal This is implementation detail. Existence, signature and behaviour are semver-exempt.
 	 */
-	public function isSleeping() : bool
+	public function isSleeping(): bool
 	{
 		return $this->sleeping;
 	}

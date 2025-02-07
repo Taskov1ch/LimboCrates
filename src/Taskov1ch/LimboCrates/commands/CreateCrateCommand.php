@@ -16,7 +16,8 @@ class CreateCrateCommand extends Command implements PluginOwned
 
 	private array $messages;
 
-	public function __construct(Main $main, string $name, string $description) {
+	public function __construct(Main $main, string $name, string $description)
+	{
 		parent::__construct($name, $description);
 		$this->setPermission("limbo.crates.{$name}");
 		$this->messages = $main->getMessages()["commands"][$name];

@@ -33,7 +33,7 @@ class SqlChangeResult extends SqlResult
 		$this->affectedRows = $affectedRows;
 	}
 
-	public function getAffectedRows() : int
+	public function getAffectedRows(): int
 	{
 		return $this->affectedRows;
 	}

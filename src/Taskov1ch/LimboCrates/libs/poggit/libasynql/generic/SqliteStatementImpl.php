@@ -25,6 +25,7 @@ namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\generic;
 use InvalidArgumentException;
 use RuntimeException;
 use SQLite3;
+
 use function array_map;
 use function assert;
 use function bin2hex;
@@ -38,12 +39,12 @@ use function strpos;
 
 class SqliteStatementImpl extends GenericStatementImpl
 {
-	public function getDialect() : string
+	public function getDialect(): string
 	{
 		return "sqlite";
 	}
 
-	protected function formatVariable(GenericVariable $variable, $value, ?string $placeHolder, array &$outArgs) : string
+	protected function formatVariable(GenericVariable $variable, $value, ?string $placeHolder, array &$outArgs): string
 	{
 		if ($variable->isList()) {
 			assert(is_array($value));

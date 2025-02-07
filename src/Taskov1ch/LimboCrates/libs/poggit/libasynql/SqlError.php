@@ -27,6 +27,7 @@ use Exception;
 use ReflectionClass;
 use ReflectionFunction;
 use RuntimeException;
+
 use function get_class;
 use function get_resource_type;
 use function is_object;
@@ -77,7 +78,7 @@ class SqlError extends RuntimeException
 	 *
 	 * @return string
 	 */
-	public function getStage() : string
+	public function getStage(): string
 	{
 		return $this->stage;
 	}
@@ -87,7 +88,7 @@ class SqlError extends RuntimeException
 	 *
 	 * @return string
 	 */
-	public function getErrorMessage() : string
+	public function getErrorMessage(): string
 	{
 		return $this->errorMessage;
 	}
@@ -97,7 +98,7 @@ class SqlError extends RuntimeException
 	 *
 	 * @return string|null
 	 */
-	public function getQuery() : ?string
+	public function getQuery(): ?string
 	{
 		return $this->query;
 	}
@@ -107,7 +108,7 @@ class SqlError extends RuntimeException
 	 *
 	 * @return mixed[]|null
 	 */
-	public function getArgs() : ?array
+	public function getArgs(): ?array
 	{
 		return $this->args;
 	}
@@ -117,7 +118,7 @@ class SqlError extends RuntimeException
 	 *
 	 * @see https://gist.github.com/Thinkscape/805ba8b91cdce6bcaf7c Exception flattening solution by Artur Bodera
 	 */
-	protected function flattenTrace() : void
+	protected function flattenTrace(): void
 	{
 		$traceProperty = (new ReflectionClass(Exception::class))->getProperty('trace');
 		$traceProperty->setAccessible(true);

@@ -39,6 +39,7 @@ use Taskov1ch\LimboCrates\libs\poggit\libasynql\result\SqlSelectResult;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlError;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlResult;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlThread;
+
 use function array_map;
 use function assert;
 use function bccomp;
@@ -55,6 +56,7 @@ use function serialize;
 use function sleep;
 use function strtotime;
 use function unserialize;
+
 use const PHP_INT_MAX;
 
 class MysqliThread extends SqlSlaveThread
@@ -64,7 +66,7 @@ class MysqliThread extends SqlSlaveThread
 	/** @var AttachableThreadSafeLogger */
 	private $logger;
 
-	public static function createFactory(MysqlCredentials $credentials, AttachableThreadSafeLogger $logger) : Closure
+	public static function createFactory(MysqlCredentials $credentials, AttachableThreadSafeLogger $logger): Closure
 	{
 		return function (SleeperHandlerEntry $sleeperEntry, QuerySendQueue $bufferSend, QueryRecvQueue $bufferRecv) use ($credentials, $logger) {
 			return new MysqliThread($credentials, $sleeperEntry, $logger, $bufferSend, $bufferRecv);
@@ -79,7 +81,7 @@ class MysqliThread extends SqlSlaveThread
 		parent::__construct($entry, $bufferSend, $bufferRecv);
 	}
 
-	protected function createConn(&$mysqli) : ?string
+	protected function createConn(&$mysqli): ?string
 	{
 		/** @var MysqlCredentials $cred */
 		$cred = unserialize($this->credentials);
@@ -108,7 +110,7 @@ class MysqliThread extends SqlSlaveThread
 		}
 	}
 
-	protected function executeQuery($mysqli, int $mode, string $query, array $params) : SqlResult
+	protected function executeQuery($mysqli, int $mode, string $query, array $params): SqlResult
 	{
 		assert($mysqli instanceof mysqli);
 		/** @var MysqlCredentials $cred */
@@ -222,7 +224,7 @@ class MysqliThread extends SqlSlaveThread
 		throw new InvalidArgumentException("Unknown mode $mode");
 	}
 
-	private function toSelectResult(mysqli_result $result) : SqlSelectResult
+	private function toSelectResult(mysqli_result $result): SqlSelectResult
 	{
 		$columns = [];
 		$columnFunc = [];
@@ -293,13 +295,13 @@ class MysqliThread extends SqlSlaveThread
 		return new SqlSelectResult($columns, $rows);
 	}
 
-	protected function close(&$mysqli) : void
+	protected function close(&$mysqli): void
 	{
 		assert($mysqli instanceof mysqli);
 		$mysqli->close();
 	}
 
-	public function getThreadName() : string
+	public function getThreadName(): string
 	{
 		return __NAMESPACE__ . " connector #$this->slaveNumber";
 	}

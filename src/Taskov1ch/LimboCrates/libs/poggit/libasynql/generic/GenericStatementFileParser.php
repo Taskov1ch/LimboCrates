@@ -24,6 +24,7 @@ namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\generic;
 
 use InvalidArgumentException;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\GenericStatement;
+
 use function array_pop;
 use function assert;
 use function count;
@@ -35,6 +36,7 @@ use function preg_split;
 use function strpos;
 use function substr;
 use function trim;
+
 use const PREG_SPLIT_NO_EMPTY;
 use const PREG_SPLIT_OFFSET_CAPTURE;
 
@@ -81,7 +83,7 @@ class GenericStatementFileParser
 	 *
 	 * @throws GenericStatementFileParseException if the file contains a syntax error or compile error
 	 */
-	public function parse() : void
+	public function parse(): void
 	{
 		try {
 			while (($line = fgets($this->fh)) !== false) {
@@ -98,12 +100,12 @@ class GenericStatementFileParser
 	/**
 	 * @return GenericStatement[]
 	 */
-	public function getResults() : array
+	public function getResults(): array
 	{
 		return $this->results;
 	}
 
-	private function readLine(int $lineNo, string $line) : void
+	private function readLine(int $lineNo, string $line): void
 	{
 		$this->lineNo = $lineNo; // In fact I don't need this parameter. I just want to get the line number onto the stack trace.
 		$line = trim($line);
@@ -123,7 +125,7 @@ class GenericStatementFileParser
 		$this->parsingQuery = true;
 	}
 
-	private function tryCommand(string $line) : bool
+	private function tryCommand(string $line): bool
 	{
 		if (strpos($line, "-- #") !== 0) {
 			return false;
@@ -167,7 +169,7 @@ class GenericStatementFileParser
 		return true;
 	}
 
-	private function dialectCommand(array $args) : void
+	private function dialectCommand(array $args): void
 	{
 		// dialect command
 		if ($this->knownDialect !== null) {
@@ -181,7 +183,7 @@ class GenericStatementFileParser
 		$this->knownDialect = $args[0];
 	}
 
-	private function startCommand(array $args) : void
+	private function startCommand(array $args): void
 	{
 		if ($this->knownDialect === null) {
 			$this->error("Dialect declaration must be the very first line");
@@ -198,7 +200,7 @@ class GenericStatementFileParser
 		$this->identifierStack[] = $args[0];
 	}
 
-	private function delimiterCommand() : void
+	private function delimiterCommand(): void
 	{
 		if (!$this->parsingQuery) {
 			$this->error("Unexpected &, start a query first");
@@ -212,7 +214,7 @@ class GenericStatementFileParser
 		$this->flushBuffer();
 	}
 
-	private function endCommand() : void
+	private function endCommand(): void
 	{
 		if (count($this->identifierStack) === 0) {
 			$this->error("No matching { for }");
@@ -245,14 +247,14 @@ class GenericStatementFileParser
 		array_pop($this->identifierStack);
 	}
 
-	private function flushBuffer() : void
+	private function flushBuffer(): void
 	{
 		$buffer = implode("\n", $this->buffer);
 		$this->currentBuffers[] = $buffer;
 		$this->buffer = [];
 	}
 
-	private function varCommand(array $args, string $line, array $argOffsets) : void
+	private function varCommand(array $args, string $line, array $argOffsets): void
 	{
 		if (empty($this->identifierStack)) {
 			$this->error("Unexpected variable declaration; start a query with { first");
@@ -274,7 +276,7 @@ class GenericStatementFileParser
 		$this->parsingQuery = true;
 	}
 
-	private function docCommand(array $args, string $line, array $argOffsets) : void
+	private function docCommand(array $args, string $line, array $argOffsets): void
 	{
 		if (empty($this->identifierStack)) {
 			$this->error("Unexpected documentation; start a query with { first");
@@ -289,7 +291,7 @@ class GenericStatementFileParser
 	 * @return GenericStatementFileParseException
 	 * @throw GenericStatementFileParseException
 	 */
-	private function error(string $problem) : GenericStatementFileParseException
+	private function error(string $problem): GenericStatementFileParseException
 	{
 		throw new GenericStatementFileParseException($problem, $this->lineNo, $this->fileName);
 	}

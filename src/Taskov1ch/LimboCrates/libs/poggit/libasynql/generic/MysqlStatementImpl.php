@@ -24,6 +24,7 @@ namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\generic;
 
 use InvalidArgumentException;
 use RuntimeException;
+
 use function array_map;
 use function assert;
 use function bin2hex;
@@ -39,12 +40,12 @@ use function random_bytes;
 
 class MysqlStatementImpl extends GenericStatementImpl
 {
-	public function getDialect() : string
+	public function getDialect(): string
 	{
 		return "mysql";
 	}
 
-	protected function formatVariable(GenericVariable $variable, $value, ?string $placeHolder, array &$outArgs) : string
+	protected function formatVariable(GenericVariable $variable, $value, ?string $placeHolder, array &$outArgs): string
 	{
 		if ($variable->isList()) {
 			assert(is_array($value));

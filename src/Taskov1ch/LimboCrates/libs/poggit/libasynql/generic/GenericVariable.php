@@ -25,6 +25,7 @@ namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\generic;
 use InvalidArgumentException;
 use InvalidStateException;
 use JsonSerializable;
+
 use function assert;
 use function in_array;
 use function is_string;
@@ -118,7 +119,7 @@ class GenericVariable implements JsonSerializable
 		}
 	}
 
-	public function unlist() : GenericVariable
+	public function unlist(): GenericVariable
 	{
 		if (!$this->list) {
 			throw new InvalidStateException("Cannot unlist a non-list variable");
@@ -128,12 +129,12 @@ class GenericVariable implements JsonSerializable
 		return $clone;
 	}
 
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->name;
 	}
 
-	public function isList() : bool
+	public function isList(): bool
 	{
 		return $this->list;
 	}
@@ -147,7 +148,7 @@ class GenericVariable implements JsonSerializable
 	 *
 	 * @return bool
 	 */
-	public function canBeEmpty() : bool
+	public function canBeEmpty(): bool
 	{
 		if (!$this->list) {
 			throw new InvalidStateException("canBeEmpty() is only available for list variables");
@@ -156,12 +157,12 @@ class GenericVariable implements JsonSerializable
 		return $this->canEmpty;
 	}
 
-	public function isNullable() : bool
+	public function isNullable(): bool
 	{
 		return $this->nullable;
 	}
 
-	public function getType() : string
+	public function getType(): string
 	{
 		return $this->type;
 	}
@@ -174,12 +175,12 @@ class GenericVariable implements JsonSerializable
 		return $this->default;
 	}
 
-	public function isOptional() : bool
+	public function isOptional(): bool
 	{
 		return $this->default !== null;
 	}
 
-	public function equals(GenericVariable $that, &$diff = null) : bool
+	public function equals(GenericVariable $that, &$diff = null): bool
 	{
 		if ($this->name !== $that->name) {
 			$diff = "name";

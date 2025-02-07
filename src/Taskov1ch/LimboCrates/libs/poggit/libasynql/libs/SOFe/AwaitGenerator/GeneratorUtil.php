@@ -38,7 +38,7 @@ class GeneratorUtil
 	 * @phpstan-param T $ret
 	 * @phpstan-return Generator<never, never, never, T>
 	 */
-	public static function empty($ret = null) : Generator
+	public static function empty($ret = null): Generator
 	{
 		false && yield;
 		return $ret;
@@ -57,7 +57,7 @@ class GeneratorUtil
 	 * @phpstan-return Generator<never, never, never, never>
 	 * @throws T
 	 */
-	public static function throw(Throwable $throwable) : Generator
+	public static function throw(Throwable $throwable): Generator
 	{
 		false && yield;
 		throw $throwable;
@@ -71,9 +71,9 @@ class GeneratorUtil
 	 *
 	 * @phpstan-return Generator<mixed, Await::RESOLVE|null|Await::RESOLVE_MULTI|Await::REJECT|Await::ONCE|Await::ALL|Await::RACE|Generator, mixed, never>
 	 */
-	public static function pending() : Generator
+	public static function pending(): Generator
 	{
-		yield from Await::promise(function () : void {});
+		yield from Await::promise(function (): void {});
 		throw new AssertionError("this line is unreachable");
 	}
 }

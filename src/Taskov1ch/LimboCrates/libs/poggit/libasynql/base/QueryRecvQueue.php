@@ -26,6 +26,7 @@ use pmmp\thread\ThreadSafe;
 use pmmp\thread\ThreadSafeArray;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlError;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlResult;
+
 use function is_string;
 use function serialize;
 use function unserialize;
@@ -44,23 +45,23 @@ class QueryRecvQueue extends ThreadSafe
 	/**
 	 * @param SqlResult[] $results
 	 */
-	public function publishResult(int $queryId, array $results) : void
+	public function publishResult(int $queryId, array $results): void
 	{
-		$this->synchronized(function () use ($queryId, $results) : void {
+		$this->synchronized(function () use ($queryId, $results): void {
 			$this->queue[] = serialize([$queryId, $results]);
 			$this->notify();
 		});
 	}
 
-	public function publishError(int $queryId, SqlError $error) : void
+	public function publishError(int $queryId, SqlError $error): void
 	{
-		$this->synchronized(function () use ($error, $queryId) : void {
+		$this->synchronized(function () use ($error, $queryId): void {
 			$this->queue[] = serialize([$queryId, $error]);
 			$this->notify();
 		});
 	}
 
-	public function fetchResults(&$queryId, &$results) : bool
+	public function fetchResults(&$queryId, &$results): bool
 	{
 		$row = $this->queue->shift();
 		if (is_string($row)) {
@@ -89,7 +90,7 @@ class QueryRecvQueue extends ThreadSafe
 	 */
 	public function waitForResults(int $expectedResults): array
 	{
-		return $this->synchronized(function () use ($expectedResults) : array {
+		return $this->synchronized(function () use ($expectedResults): array {
 			$ret = [];
 			while (count($ret) < $expectedResults) {
 				if (!$this->fetchResults($queryId, $results)) {

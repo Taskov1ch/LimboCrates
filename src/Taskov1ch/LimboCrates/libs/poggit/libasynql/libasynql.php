@@ -31,6 +31,7 @@ use Taskov1ch\LimboCrates\libs\poggit\libasynql\base\SqlThreadPool;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\mysqli\MysqlCredentials;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\mysqli\MysqliThread;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\sqlite3\Sqlite3Thread;
+
 use function array_keys;
 use function count;
 use function extension_loaded;
@@ -48,12 +49,12 @@ final class libasynql
 	/** @var bool */
 	private static $packaged;
 
-	public static function isPackaged() : bool
+	public static function isPackaged(): bool
 	{
 		return self::$packaged;
 	}
 
-	public static function detectPackaged() : void
+	public static function detectPackaged(): void
 	{
 		self::$packaged = __CLASS__ !== 'poggit\libasynql\libasynql';
 
@@ -77,7 +78,7 @@ final class libasynql
 	 * @return DataConnector
 	 * @throws SqlError if the connection could not be created
 	 */
-	public static function create(PluginBase $plugin, $configData, array $sqlMap, bool $logQueries = null) : DataConnector
+	public static function create(PluginBase $plugin, $configData, array $sqlMap, bool $logQueries = null): DataConnector
 	{
 		libasynql::detectPackaged();
 
@@ -152,7 +153,7 @@ final class libasynql
 		$connector = new DataConnectorImpl($plugin, $pool, $placeHolder, $logQueries ?? !libasynql::isPackaged());
 		foreach (is_string($sqlMap[$dialect]) ? [$sqlMap[$dialect]] : $sqlMap[$dialect] as $file) {
 			$resource = $plugin->getResource($file);
-			if ($resource===null) {
+			if ($resource === null) {
 				throw new InvalidArgumentException("resources/$file does not exist");
 			}
 			$connector->loadQueryFile($resource);
@@ -161,7 +162,7 @@ final class libasynql
 		return $connector;
 	}
 
-	private static function resolvePath(string $folder, string $path) : string
+	private static function resolvePath(string $folder, string $path): string
 	{
 		if ($path[0] === "/") {
 			return $path;

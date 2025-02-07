@@ -69,7 +69,7 @@ class Session
 	public function __construct(private Crate $crate)
 	{
 		foreach (Crates::OFFSETS as [$offsetX, $offsetZ]) {
-			$adjust = fn(int $offset) => $offset + ($offset <=> 0) * Crates::OFFSET_STEP;
+			$adjust = fn (int $offset) => $offset + ($offset <=> 0) * Crates::OFFSET_STEP;
 			$this->chestPositions[] = $crate->getPosition()->add($adjust($offsetX), 0, $adjust($offsetZ));
 		}
 		$this->shufflePositions = $this->chestPositions;
@@ -131,12 +131,12 @@ class Session
 	private function startShuffle(): void
 	{
 		$this->shuffleTask = $this->scheduler->scheduleRepeatingTask(
-			new ClosureTask(fn() => $this->player?->isOnline() ? $this->shuffle() : $this->close()),
+			new ClosureTask(fn () => $this->player?->isOnline() ? $this->shuffle() : $this->close()),
 			self::SHUFFLE_INTERVAL
 		);
 
 		$this->stopTask = $this->scheduler->scheduleDelayedTask(
-			new ClosureTask(fn() => $this->stopShuffle()),
+			new ClosureTask(fn () => $this->stopShuffle()),
 			self::STOP_DELAY
 		);
 	}
@@ -149,7 +149,10 @@ class Session
 			$movePacket = MoveActorAbsolutePacket::create(
 				$item->getId(),
 				$this->shufflePositions[$index]->add(0.5, 0, 0.5),
-				0, 0, 0, 0
+				0,
+				0,
+				0,
+				0
 			);
 
 			foreach ($item->getViewers() as $viewer) {
@@ -158,7 +161,7 @@ class Session
 		}
 
 		$this->stopTask = $this->scheduler->scheduleDelayedTask(
-			new ClosureTask(fn() => $this->prepareRewards()),
+			new ClosureTask(fn () => $this->prepareRewards()),
 			self::PREPARE_REWARDS_DELAY
 		);
 	}
@@ -248,12 +251,13 @@ class Session
 
 		foreach ($selectedReward["commands"] as $command) {
 			Server::getInstance()->dispatchCommand(
-				$console, str_replace("{player}", $this->player->getName(), $command)
+				$console,
+				str_replace("{player}", $this->player->getName(), $command)
 			);
 		}
 
 		$this->scheduler->scheduleDelayedTask(
-			new ClosureTask(fn() => $this->close()),
+			new ClosureTask(fn () => $this->close()),
 			self::END_TIME
 		);
 	}
@@ -289,8 +293,11 @@ class Session
 		$tmpPosition->z += 0.5;
 
 		$this->playerFloatingText = $this->textManager->registerText(
-			"lc_{$name}_player", str_replace("{player}", $playerName, $this->messages["texts"]["is_opening"]),
-			$tmpPosition, true, false
+			"lc_{$name}_player",
+			str_replace("{player}", $playerName, $this->messages["texts"]["is_opening"]),
+			$tmpPosition,
+			true,
+			false
 		);
 
 		$this->isRunning = true;
@@ -310,13 +317,16 @@ class Session
 		$this->player->getNetworkSession()->sendDataPacket(
 			PlaySoundPacket::create(
 				"isolation.final_part",
-				$position->getX(), $position->getY(), $position->getZ(),
-				1, 1
+				$position->getX(),
+				$position->getY(),
+				$position->getZ(),
+				1,
+				1
 			)
 		);
 
 		$this->startTask = $this->scheduler->scheduleDelayedTask(
-			new ClosureTask(fn() => $this->startShuffle()),
+			new ClosureTask(fn () => $this->startShuffle()),
 			self::START_DELAY
 		);
 	}

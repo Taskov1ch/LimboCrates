@@ -14,7 +14,8 @@ class TakeKeysCommand extends Command implements PluginOwned
 
 	private array $messages;
 
-	public function __construct(Main $main, string $name, string $description) {
+	public function __construct(Main $main, string $name, string $description)
+	{
 		parent::__construct($name, $description);
 		$this->setPermission("limbo.crates.{$name}");
 		$this->messages = $main->getMessages()["commands"][$name];
@@ -32,8 +33,10 @@ class TakeKeysCommand extends Command implements PluginOwned
 		}
 
 		$main->getKeysManager()->takeKeys(
-			$args[0], $args[1], false,
-			fn() => $sender->sendMessage(str_replace(
+			$args[0],
+			$args[1],
+			false,
+			fn () => $sender->sendMessage(str_replace(
 				["{player}", "{keys}"],
 				[$args[0], $args[1]],
 				$this->messages["success"]

@@ -29,7 +29,6 @@ use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlThread;
 
 class SqlThreadPool implements SqlThread
 {
-
 	private SleeperHandlerEntry $sleeperEntry;
 	/** @var callable */
 	private $workerFactory;
@@ -62,7 +61,7 @@ class SqlThreadPool implements SqlThread
 	 */
 	public function __construct(callable $workerFactory, int $workerLimit)
 	{
-		$this->sleeperEntry = Server::getInstance()->getTickSleeper()->addNotifier(function () : void {
+		$this->sleeperEntry = Server::getInstance()->getTickSleeper()->addNotifier(function (): void {
 			assert($this->dataConnector instanceof DataConnectorImpl); // otherwise, wtf
 			$this->dataConnector->checkResults();
 		});
@@ -75,26 +74,26 @@ class SqlThreadPool implements SqlThread
 		$this->addWorker();
 	}
 
-	private function addWorker() : void
+	private function addWorker(): void
 	{
 		$this->workers[] = ($this->workerFactory)($this->sleeperEntry, $this->bufferSend, $this->bufferRecv);
 	}
 
-	public function join() : void
+	public function join(): void
 	{
 		foreach ($this->workers as $worker) {
 			$worker->join();
 		}
 	}
 
-	public function stopRunning() : void
+	public function stopRunning(): void
 	{
 		foreach ($this->workers as $worker) {
 			$worker->stopRunning();
 		}
 	}
 
-	public function addQuery(int $queryId, array $modes, array $queries, array $params) : void
+	public function addQuery(int $queryId, array $modes, array $queries, array $params): void
 	{
 		$this->bufferSend->scheduleQuery($queryId, $modes, $queries, $params);
 
@@ -109,7 +108,7 @@ class SqlThreadPool implements SqlThread
 		}
 	}
 
-	public function readResults(array &$callbacks, ?int $expectedResults) : void
+	public function readResults(array &$callbacks, ?int $expectedResults): void
 	{
 		if ($expectedResults === null) {
 			$resultsList = $this->bufferRecv->fetchAllResults();
@@ -126,22 +125,22 @@ class SqlThreadPool implements SqlThread
 		}
 	}
 
-	public function connCreated() : bool
+	public function connCreated(): bool
 	{
 		return $this->workers[0]->connCreated();
 	}
 
-	public function hasConnError() : bool
+	public function hasConnError(): bool
 	{
 		return $this->workers[0]->hasConnError();
 	}
 
-	public function getConnError() : ?string
+	public function getConnError(): ?string
 	{
 		return $this->workers[0]->getConnError();
 	}
 
-	public function getLoad() : float
+	public function getLoad(): float
 	{
 		return $this->bufferSend->count() / (float) $this->workerLimit;
 	}

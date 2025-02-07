@@ -33,7 +33,7 @@ class SqlInsertResult extends SqlChangeResult
 		$this->insertId = $insertId;
 	}
 
-	public function getInsertId() : int
+	public function getInsertId(): int
 	{
 		return $this->insertId;
 	}

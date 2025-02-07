@@ -39,8 +39,10 @@ use Taskov1ch\LimboCrates\libs\poggit\libasynql\result\SqlSelectResult;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlError;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlResult;
 use Taskov1ch\LimboCrates\libs\poggit\libasynql\SqlThread;
+
 use function assert;
 use function is_array;
+
 use const INF;
 use const NAN;
 use const SQLITE3_ASSOC;
@@ -55,7 +57,7 @@ class Sqlite3Thread extends SqlSlaveThread
 	/** @var string */
 	private $path;
 
-	public static function createFactory(string $path) : Closure
+	public static function createFactory(string $path): Closure
 	{
 		return function (SleeperHandlerEntry $entry, QuerySendQueue $send, QueryRecvQueue $recv) use ($path) {
 			return new Sqlite3Thread($path, $entry, $send, $recv);
@@ -68,7 +70,7 @@ class Sqlite3Thread extends SqlSlaveThread
 		parent::__construct($entry, $send, $recv);
 	}
 
-	protected function createConn(&$sqlite) : ?string
+	protected function createConn(&$sqlite): ?string
 	{
 		try {
 			$sqlite = new SQLite3($this->path);
@@ -79,7 +81,7 @@ class Sqlite3Thread extends SqlSlaveThread
 		}
 	}
 
-	protected function executeQuery($sqlite, int $mode, string $query, array $params) : SqlResult
+	protected function executeQuery($sqlite, int $mode, string $query, array $params): SqlResult
 	{
 		assert($sqlite instanceof SQLite3);
 		try {
@@ -151,13 +153,13 @@ class Sqlite3Thread extends SqlSlaveThread
 		throw new InvalidArgumentException("Unknown mode $mode");
 	}
 
-	protected function close(&$resource) : void
+	protected function close(&$resource): void
 	{
 		assert($resource instanceof SQLite3);
 		$resource->close();
 	}
 
-	public function getThreadName() : string
+	public function getThreadName(): string
 	{
 		return __NAMESPACE__ . " connector #$this->slaveNumber";
 	}

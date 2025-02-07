@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\libs\SOFe\AwaitGenerator;
 
 use Generator;
+
 use function array_shift;
 use function count;
 
@@ -36,7 +37,7 @@ final class Channel
 
 	public function __construct()
 	{
-		$this->state = new EmptyChannelState;
+		$this->state = new EmptyChannelState();
 	}
 
 	/**
@@ -45,19 +46,19 @@ final class Channel
 	 *
 	 * @param T $value
 	 */
-	public function sendAndWait($value) : Generator
+	public function sendAndWait($value): Generator
 	{
 		if ($this->state instanceof ReceivingChannelState) {
 			$receiver = array_shift($this->state->queue);
 			if (count($this->state->queue) === 0) {
-				$this->state = new EmptyChannelState;
+				$this->state = new EmptyChannelState();
 			}
 			$receiver($value);
 			return;
 		}
 
 		if ($this->state instanceof EmptyChannelState) {
-			$this->state = new SendingChannelState;
+			$this->state = new SendingChannelState();
 		}
 
 		try {
@@ -75,7 +76,7 @@ final class Channel
 
 					unset($this->state->queue[spl_object_id($key)]);
 					if (count($this->state->queue) === 0) {
-						$this->state = new EmptyChannelState;
+						$this->state = new EmptyChannelState();
 					}
 				}
 				// else, state already changed means our key has been shifted already.
@@ -92,7 +93,7 @@ final class Channel
 	 *
 	 * @param T $value
 	 */
-	public function sendWithoutWait($value) : void
+	public function sendWithoutWait($value): void
 	{
 		Await::g2c($this->sendAndWait($value));
 	}
@@ -103,12 +104,12 @@ final class Channel
 	 *
 	 * @param T $value
 	 */
-	public function trySend($value) : bool
+	public function trySend($value): bool
 	{
 		if ($this->state instanceof ReceivingChannelState) {
 			$receiver = array_shift($this->state->queue);
 			if (count($this->state->queue) === 0) {
-				$this->state = new EmptyChannelState;
+				$this->state = new EmptyChannelState();
 			}
 			$receiver($value);
 			return true;
@@ -123,19 +124,19 @@ final class Channel
 	 *
 	 * @return Generator<mixed, Await::RESOLVE|null|Await::RESOLVE_MULTI|Await::REJECT|Await::ONCE|Await::ALL|Await::RACE|Generator, mixed, T>
 	 */
-	public function receive() : Generator
+	public function receive(): Generator
 	{
 		if ($this->state instanceof SendingChannelState) {
 			[$value, $sender] = array_shift($this->state->queue);
 			if (count($this->state->queue) === 0) {
-				$this->state = new EmptyChannelState;
+				$this->state = new EmptyChannelState();
 			}
 			$sender();
 			return $value;
 		}
 
 		if ($this->state instanceof EmptyChannelState) {
-			$this->state = new ReceivingChannelState;
+			$this->state = new ReceivingChannelState();
 		}
 
 		try {
@@ -153,7 +154,7 @@ final class Channel
 
 					unset($this->state->queue[spl_object_id($key)]);
 					if (count($this->state->queue) === 0) {
-						$this->state = new EmptyChannelState;
+						$this->state = new EmptyChannelState();
 					}
 				}
 				// else, state already changed means our key has been shifted already.
@@ -175,7 +176,7 @@ final class Channel
 		if ($this->state instanceof SendingChannelState) {
 			[$value, $sender] = array_shift($this->state->queue);
 			if (count($this->state->queue) === 0) {
-				$this->state = new EmptyChannelState;
+				$this->state = new EmptyChannelState();
 			}
 			$sender();
 			return $value;
@@ -184,7 +185,7 @@ final class Channel
 		return $default;
 	}
 
-	public function getSendQueueSize() : int
+	public function getSendQueueSize(): int
 	{
 		if ($this->state instanceof SendingChannelState) {
 			return count($this->state->queue);
@@ -193,7 +194,7 @@ final class Channel
 		return 0;
 	}
 
-	public function getReceiveQueueSize() : int
+	public function getReceiveQueueSize(): int
 	{
 		if ($this->state instanceof ReceivingChannelState) {
 			return count($this->state->queue);

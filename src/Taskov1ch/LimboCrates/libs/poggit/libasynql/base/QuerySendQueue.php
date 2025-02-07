@@ -24,6 +24,7 @@ namespace Taskov1ch\LimboCrates\libs\poggit\libasynql\base;
 
 use pmmp\thread\ThreadSafe;
 use pmmp\thread\ThreadSafeArray;
+
 use function serialize;
 
 class QuerySendQueue extends ThreadSafe
@@ -38,18 +39,18 @@ class QuerySendQueue extends ThreadSafe
 		$this->queries = new ThreadSafeArray();
 	}
 
-	public function scheduleQuery(int $queryId, array $modes, array $queries, array $params) : void
+	public function scheduleQuery(int $queryId, array $modes, array $queries, array $params): void
 	{
 		if ($this->invalidated) {
 			throw new QueueShutdownException("You cannot schedule a query on an invalidated queue.");
 		}
-		$this->synchronized(function () use ($queryId, $modes, $queries, $params) : void {
+		$this->synchronized(function () use ($queryId, $modes, $queries, $params): void {
 			$this->queries[] = serialize([$queryId, $modes, $queries, $params]);
 			$this->notifyOne();
 		});
 	}
 
-	public function fetchQuery() : ?string
+	public function fetchQuery(): ?string
 	{
 		return $this->synchronized(function (): ?string {
 			while ($this->queries->count() === 0 && !$this->isInvalidated()) {
@@ -59,9 +60,9 @@ class QuerySendQueue extends ThreadSafe
 		});
 	}
 
-	public function invalidate() : void
+	public function invalidate(): void
 	{
-		$this->synchronized(function ():void {
+		$this->synchronized(function (): void {
 			$this->invalidated = true;
 			$this->notify();
 		});
@@ -75,7 +76,7 @@ class QuerySendQueue extends ThreadSafe
 		return $this->invalidated;
 	}
 
-	public function count() : int
+	public function count(): int
 	{
 		return $this->queries->count();
 	}

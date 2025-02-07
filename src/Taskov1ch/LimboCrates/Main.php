@@ -44,7 +44,7 @@ class Main extends PluginBase
 		return $this->crates;
 	}
 
-	public function getKeysManager() : Keys
+	public function getKeysManager(): Keys
 	{
 		return $this->keys;
 	}
@@ -70,7 +70,8 @@ class Main extends PluginBase
 		}
 
 		$this->messages = (new Config(
-			Path::join($langPath, $this->getConfig()->get("language") . ".yml"))
+			Path::join($langPath, $this->getConfig()->get("language") . ".yml")
+		)
 		)->getAll();
 		$this->crates = new Crates($this);
 		$this->keys = new Keys($this);

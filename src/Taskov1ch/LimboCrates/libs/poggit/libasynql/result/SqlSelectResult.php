@@ -46,7 +46,7 @@ class SqlSelectResult extends SqlResult
 	 *
 	 * @return SqlColumnInfo[]
 	 */
-	public function getColumnInfo() : array
+	public function getColumnInfo(): array
 	{
 		return $this->columnInfo;
 	}
@@ -67,7 +67,7 @@ class SqlSelectResult extends SqlResult
 	 *
 	 * @return array[]
 	 */
-	public function getRows() : array
+	public function getRows(): array
 	{
 		return $this->rows;
 	}
